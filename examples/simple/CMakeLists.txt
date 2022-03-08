@@ -3,6 +3,9 @@ cmake_minimum_required(VERSION 3.10)
 # set the project name
 project(simple)
 
+message(STATUS "CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH}")
+include(rabbitmq)
+include(amqpcpp)
 
 set(PROJECT_SOURCE_DIR src)
 
@@ -12,3 +15,4 @@ file(GLOB_RECURSE SRC
 )
 
 add_executable(helloworld ${SRC})
+target_link_libraries(helloworld ${LIBRARIES})

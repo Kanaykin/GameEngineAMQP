@@ -1,0 +1,19 @@
+{
+  "CA": {
+    "expiry": "876000h"
+  },
+  "CN": "Custom Widgets Root CA",
+  "key": {
+    "algo": "rsa",
+    "size": 2048
+  },
+  "names": [
+    {
+      "C": "GB",
+      "L": "London",
+      "O": "Custom Widgets",
+      "OU": "Custom Widgets Root CA",
+      "ST": "England"
+    }
+  ]
+}

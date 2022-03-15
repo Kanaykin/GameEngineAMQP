@@ -6,6 +6,7 @@ project(simple)
 message(STATUS "CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH}")
 include(rabbitmq)
 include(amqpcpp)
+include(qpid-proton)
 
 set(PROJECT_SOURCE_DIR src)
 

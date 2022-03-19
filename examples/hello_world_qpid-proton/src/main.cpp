@@ -1,7 +1,4 @@
-#include <amqp.h>
-#include <rabbitmq-c/tcp_socket.h>
-#include <assert.h>
-#include <AMQPcpp.h>
+
 
 #include <proton/container.hpp>
 #include <proton/listen_handler.hpp>
@@ -144,7 +141,7 @@ void thread_function()
 {
     try
     {
-        server hw("amqp://127.0.0.1:5672/examples");
+        server hw("127.0.0.1:5672");
         proton::container(hw).run();
     } catch (const std::exception& e) {
         std::cerr << e.what() << std::endl;
@@ -160,7 +157,7 @@ void thread_function2()
         requests.push_back("All mimsy were the borogroves,");
         requests.push_back("And the mome raths outgrabe.");
 
-        client c("amqp://127.0.0.1:5672/examples", requests);
+        client c("127.0.0.1:5672", requests);
         proton::container(c).run();
 
         return 0;
@@ -174,44 +171,19 @@ void thread_function2()
 }
 int main()
 {
-//    amqp_connection_state_t connection_state = amqp_new_connection();
-//    amqp_socket_t *socket = amqp_tcp_socket_new(connection_state);
+    try
+    {
     
-//    int rc = amqp_socket_open(socket, "localhost", AMQP_PROTOCOL_PORT);
-//    assert(rc == AMQP_STATUS_OK);
-    
-//    amqp_rpc_reply_t rpc_reply = amqp_login(
-//                                            connection_state, "/", 1, AMQP_DEFAULT_FRAME_SIZE,
-//        AMQP_DEFAULT_HEARTBEAT, AMQP_SASL_METHOD_PLAIN, "guest", "guest");
-//    assert(rpc_reply.reply_type == AMQP_RESPONSE_NORMAL);
-
-//    amqp_channel_open_ok_t *res =
-//        amqp_channel_open(connection_state, fixed_channel_id);
-//    assert(res != NULL);
-    
-//    try
-//    {
-//        AMQP amqp;
-//
-//        AMQPExchange * ex = amqp.createExchange("hello-exchange");
-//        ex->Declare("hello-exchange", "direct");
-//
-//        AMQPQueue * queue = amqp.createQueue("hello-queue");
-//        queue->Declare();
-//        queue->Bind( "hello-exchange", "hola");
-//    }
-//    catch (AMQPException& e)
-//    {
-//        std::cout << e.getMessage() << std::endl;
-////        boost::this_thread::sleep( boost::posix_time::milliseconds(3000) );
-////        publish();
-//    }
-
     std::thread t(&thread_function);   // t starts running
     
     std::thread t2(&thread_function2);   // t starts running
     
     t.join();   // main thread waits for the thread t to finish
+    
+    }
+    catch (const std::exception& e) {
+        std::cerr << e.what() << std::endl;
+    }
     
     return 0;
 }

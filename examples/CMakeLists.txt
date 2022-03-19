@@ -1,3 +1,5 @@
 cmake_minimum_required(VERSION 3.10)
 
-add_subdirectory (simple)
+add_subdirectory (hello_world_amqpcpp)
+add_subdirectory (hello_world_qpid-proton)
+add_subdirectory (hello_world_rabbitmq)

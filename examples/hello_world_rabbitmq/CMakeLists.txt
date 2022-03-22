@@ -6,6 +6,7 @@ project(${PROJECT_NAME})
 
 message(STATUS "CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH}")
 include(rabbitmq)
+include(group_files)
 
 set(PROJECT_SOURCE_DIR src)
 
@@ -13,6 +14,8 @@ file(GLOB_RECURSE SRC
      ${PROJECT_SOURCE_DIR}/*.h
      ${PROJECT_SOURCE_DIR}/*.cpp
 )
+
+group_files()
 
 add_executable(${PROJECT_NAME} ${SRC})
 target_link_libraries(${PROJECT_NAME} ${LIBRARIES})

@@ -1,17 +1,9 @@
 #pragma once
 
-#include <proton/container.hpp>
-#include <proton/listen_handler.hpp>
-#include <proton/listener.hpp>
-#include <proton/message.hpp>
-#include <proton/message_id.hpp>
-#include <proton/messaging_handler.hpp>
 #include <proton/sender.hpp>
+#include <proton/receiver.hpp>
 #include <proton/sender_options.hpp>
-#include <proton/source_options.hpp>
-#include <proton/tracker.hpp>
-#include <proton/delivery.hpp>
-#include <proton/receiver_options.hpp>
+#include <thread>
 #include "IProducer.h"
 
 namespace messages_system
@@ -24,10 +16,15 @@ public:
     
     ~ProtonProducer();
     
-    void publish() override {}
+    void publish() override;
     
 private:
+    proton::work_queue* work_queue();
+    
     proton::sender _sender;
+    proton::receiver _receiver;
+    proton::work_queue* _work_queue = nullptr;
+    std::mutex lock_;
 };
 
 }

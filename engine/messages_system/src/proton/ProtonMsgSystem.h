@@ -52,6 +52,11 @@ private:
     std::unique_ptr<std::thread> _thread;
     bool _container_started = false;
     proton::listen_handler _listener;
+    
+    std::mutex _lock;
+    std::condition_variable _sender_ready;
+    bool work_queue_ = false;
+    proton::sender sender;
 };
 
 }

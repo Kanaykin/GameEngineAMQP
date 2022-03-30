@@ -1,5 +1,6 @@
 #include <proton/error.hpp>
 #include <proton/message.hpp>
+#include <proton/work_queue.hpp>
 
 #include "ProtonMsgSystem.h"
 #include "ProtonProducer.h"
@@ -33,6 +34,16 @@ ProtonMsgSystem::~ProtonMsgSystem()
 
 IProducerPtr ProtonMsgSystem::createProducer(const std::string& url)
 {
+    std::unique_lock<std::mutex> l(_lock);
+    auto duration = proton::duration(10);
+    auto work = proton::work([=](){
+        _container->open_sender(url);
+    });
+    _container->schedule(duration, work);
+
+    work_queue_ = false;
+    while (!work_queue_) _sender_ready.wait(l);
+    
     auto sender = _container->open_sender(url);
     return std::make_shared<ProtonProducer>(sender);
 }
@@ -56,9 +67,13 @@ void ProtonMsgSystem::on_container_stop(proton::container &c)
     std::cout << "on_container_stop " << std::endl;
 }
 
-void ProtonMsgSystem::on_sender_open(proton::sender &sender)
+void ProtonMsgSystem::on_sender_open(proton::sender &s)
 {
     std::cout << "on_sender_open " << std::endl;
+    std::lock_guard<std::mutex> l(_lock);
+    work_queue_ = true;
+    sender = sender;
+    _sender_ready.notify_all();
 }
 
 void ProtonMsgSystem::on_sender_detach(proton::sender&)

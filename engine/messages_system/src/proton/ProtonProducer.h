@@ -12,11 +12,13 @@ namespace messages_system
 class ProtonProducer : public IProducer
 {
 public:
-    explicit ProtonProducer(const proton::sender& sender);
+    ProtonProducer();
     
     ~ProtonProducer();
     
     void publish() override;
+    
+    void setSender(const proton::sender& sender);
     
 private:
     proton::work_queue* work_queue();

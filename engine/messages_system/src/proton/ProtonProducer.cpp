@@ -9,9 +9,14 @@
 
 using namespace messages_system;
 
-ProtonProducer::ProtonProducer(const proton::sender& sender):
-_sender(sender)
+ProtonProducer::ProtonProducer()
 {
+    
+}
+
+void ProtonProducer::setSender(const proton::sender& sender)
+{
+    _sender = sender;
     proton::receiver_options opts = proton::receiver_options().source(proton::source_options().dynamic(true));
     _receiver = _sender.connection().open_receiver("", opts);
     
@@ -31,7 +36,8 @@ void ProtonProducer::publish()
     req.reply_to("client");
 //    req.reply_to(_receiver.source().address());
     
-    work_queue()->add([=]() { _sender.send(req); });
+    if (work_queue())
+        work_queue()->add([=]() { _sender.send(req); });
 }
 
 proton::work_queue* ProtonProducer::work_queue()

@@ -6,6 +6,8 @@
 #include <proton/messaging_handler.hpp>
 #include <proton/listen_handler.hpp>
 #include <proton/listener.hpp>
+#include <proton/work_queue.hpp>
+#include <unordered_map>
 
 #include <iostream>
 
@@ -14,22 +16,25 @@
 namespace messages_system
 {
 
+class ProtonMsgListener;
+
 class ProtonMsgSystem: public proton::messaging_handler, public IMsgSystem
 {
-private:
-    class listener_ready_handler : public proton::listen_handler {
-        void on_open(proton::listener& l) override {
-            std::cout << "listening on " << l.port() << std::endl;
-        }
-    };
 public:
     ProtonMsgSystem();
     
     ~ProtonMsgSystem();
     
+    void run() override;
+    
     IProducerPtr createProducer(const std::string& url) override;
     
     IConsumerPtr createConsumer(const std::string& url) override;
+    
+    IExchangePtr createExchange(const std::string& url) override;
+    
+private:
+    typedef std::shared_ptr<ProtonMsgListener> ProtonMsgListenerPtr;
     
     void on_container_start(proton::container &c) override;
     
@@ -47,16 +52,18 @@ public:
     
     void on_error(const proton::error_condition& error) override;
     
+    ProtonMsgListenerPtr getListener(const std::string& url) const;
+    
 private:
     std::unique_ptr<proton::container> _container;
     std::unique_ptr<std::thread> _thread;
     bool _container_started = false;
-    proton::listen_handler _listener;
     
-    std::mutex _lock;
-    std::condition_variable _sender_ready;
-    bool work_queue_ = false;
-    proton::sender sender;
+    mutable std::mutex _lock;
+    std::vector<proton::work> _work_queue;
+    
+    typedef std::unordered_map<std::string, ProtonMsgListenerPtr> ProtonMsgListenerMap;
+    mutable ProtonMsgListenerMap _listeners;;
 };
 
 }

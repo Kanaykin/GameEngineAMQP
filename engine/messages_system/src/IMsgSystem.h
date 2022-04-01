@@ -22,7 +22,7 @@ public:
     
     virtual IExchangePtr createExchange(const std::string& url) = 0;
     
-    virtual void run() = 0;
+//    virtual void run() = 0;
 };
 
 }

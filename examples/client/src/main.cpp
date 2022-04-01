@@ -7,9 +7,21 @@
 int main()
 {
     auto msgSystem = messages_system::createMsgSystem("ProtonMsg");
+    
+//    auto exchange1 = msgSystem->createExchange("localhost:5673/client");
+//    auto exchange2 = msgSystem->createExchange("localhost:5674/render");
+//    auto exchange3 = msgSystem->createExchange("localhost:5675/sound");
+    
+    
 //    std::this_thread::sleep_for(std::chrono::milliseconds(100));
+    
+    auto customer = msgSystem->createConsumer("localhost:5673/render");
+    
     auto producer1 = msgSystem->createProducer("localhost:5673/client");
+//    std::this_thread::sleep_for(std::chrono::milliseconds(10000));
     auto producer2 = msgSystem->createProducer("localhost:5673/render");
+    
+//    msgSystem->run();
     
     while (true)
     {
@@ -17,7 +29,7 @@ int main()
 //      processInput();
 //      update();
 //      render();
-        producer1->publish();
+        producer2->publish();
 
         std::this_thread::sleep_for(std::chrono::milliseconds(100));
     }

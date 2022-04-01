@@ -151,6 +151,7 @@ void thread_function()
 void thread_function2()
 {
     try {
+        std::this_thread::sleep_for(std::chrono::milliseconds(10000));
         std::vector<std::string> requests;
         requests.push_back("Twas brillig, and the slithy toves");
         requests.push_back("Did gire and gymble in the wabe.");

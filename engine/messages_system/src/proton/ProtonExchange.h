@@ -10,10 +10,12 @@
 #include <proton/connection_options.hpp>
 
 #include "IExchange.h"
-#include "proton/ProtonExchangeConnHandler.h"
 
 namespace messages_system
 {
+
+class ProtonExchangeListener;
+class ProtonExchangeQueueManager;
 
 class ProtonExchange : public IExchange
 {
@@ -24,32 +26,13 @@ public:
     ~ProtonExchange();
     
 private:
-    struct ProtonExchangeListener : public proton::listen_handler
-    {
-//        listener(QueueManager& c) : queues_(c) {}
-
-        proton::connection_options on_accept(proton::listener&) override{
-            std::cout << "ProtonExchangeListener on_accept " << std::endl;
-            return proton::connection_options().handler(*(new ProtonExchangeConnHandler(/*queues_*/)));
-//            return proton::connection_options();
-        }
-
-        void on_open(proton::listener& l) override {
-            std::cout << "ProtonExchangeListener listening on " << l.port() << std::endl;
-        }
-
-        void on_error(proton::listener&, const std::string& s) override {
-            std::cerr << "ProtonExchangeListener listen error: " << s << std::endl;
-            throw std::runtime_error(s);
-        }
-//        QueueManager& queues_;
-    };
     
-    std::shared_ptr<proton::listen_handler> getListener() const;
+//    std::shared_ptr<proton::listen_handler> getListener() const;
     
-//    std::unique_ptr<proton::container> _container;
-//    QueueManager queues_;
-    std::shared_ptr<ProtonExchangeListener> _listener;
+    std::unique_ptr<proton::container> _container;
+    std::unique_ptr<ProtonExchangeListener> _listener;
+    typedef std::shared_ptr<ProtonExchangeQueueManager> ProtonExchangeQueueManagerPtr;
+    ProtonExchangeQueueManagerPtr _queues;
     
     std::unique_ptr<std::thread> _thread;
 };

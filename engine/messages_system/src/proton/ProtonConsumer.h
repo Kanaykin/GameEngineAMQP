@@ -6,6 +6,7 @@
 #include <proton/container.hpp>
 #include <proton/listen_handler.hpp>
 #include <proton/listener.hpp>
+#include <condition_variable>
 #include "IConsumer.h"
 
 #include <iostream>
@@ -41,6 +42,9 @@ private:
     
     std::unique_ptr<proton::container>  _container;
     std::unique_ptr<std::thread>        _thread;
+    std::mutex                          _lock;
+    std::condition_variable             _contStarted;
+    bool _containerStarted = false;
     
 //    proton::receiver _receiver;
 //    proton::connection _connection;

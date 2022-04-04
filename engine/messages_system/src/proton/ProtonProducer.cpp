@@ -23,7 +23,6 @@ void ProtonProducer::restart()
     _thread = std::make_unique<std::thread>([this]() {
         try
         {
-            std::this_thread::sleep_for(std::chrono::milliseconds(10000));
             _container->run();
         }
         catch (const proton::error& e)
@@ -41,12 +40,12 @@ void ProtonProducer::on_container_start(proton::container &c)
 {
     std::cout << "ProtonProducer::on_container_start " << std::endl;
     _sender = c.open_sender(_url);
-    _work_queue = &_sender.work_queue();
+//    _workQueue = &_sender.work_queue();
     
     // Create a receiver requesting a dynamically created queue
     // for the message source.
     proton::receiver_options opts = proton::receiver_options().source(proton::source_options().dynamic(true));
-    _receiver = _sender.connection().open_receiver("", opts);
+    _receiver = _sender.connection().open_receiver("render", opts);
 }
 
 void ProtonProducer::on_container_stop(proton::container &c)
@@ -79,8 +78,10 @@ ProtonProducer::~ProtonProducer()
 
 void ProtonProducer::publish()
 {
+    
     proton::message req;
-    req.body("test");
+    req.body("test " + _url);
+    req.address("server");
 //    req.address("render");
 //    req.reply_to("client");
 //    req.reply_to(_receiver.source().address());
@@ -95,6 +96,7 @@ void ProtonProducer::on_receiver_open(proton::receiver &)
 //    send_request();
     proton::message req;
     req.body("test");
+//    _workQueue = &_sender.work_queue();
 //    req.address("render");
 //    req.reply_to("client");
 //    req.reply_to(_receiver.source().address());
@@ -105,8 +107,8 @@ void ProtonProducer::on_receiver_open(proton::receiver &)
 void ProtonProducer::on_sender_open(proton::sender &s)
 {
     std::cout << "ProtonProducer::on_sender_open " << std::endl;
-//    _sender = s;
-//    _work_queue = &s.work_queue();
+    _sender = s;
+    _workQueue = &s.work_queue();
 }
 
 void ProtonProducer::on_message(proton::delivery& delivery, proton::message& m)
@@ -120,5 +122,5 @@ proton::work_queue* ProtonProducer::work_queue()
     // Wait till work_queue_ and sender_ are initialized.
 //    std::unique_lock<std::mutex> l(_lock);
 //    while (!_work_queue) sender_ready_.wait(l);
-    return _work_queue;
+    return _workQueue;
 }

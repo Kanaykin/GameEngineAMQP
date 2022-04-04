@@ -6,7 +6,6 @@
 #include "ProtonProducer.h"
 #include "ProtonConsumer.h"
 #include "ProtonExchange.h"
-#include "ProtonMsgListener.h"
 
 #include <iostream>
 
@@ -83,7 +82,7 @@ IExchangePtr ProtonMsgSystem::createExchange(const std::string& url)
 //    auto exchange = std::make_shared<ProtonExchange>(url);
 //    listener->addListener(exchange->getListener());
 //    return exchange;
-    return IExchangePtr();
+    return std::make_shared<ProtonExchange>(url);
 }
 
 //ProtonMsgSystem::ProtonMsgListenerPtr ProtonMsgSystem::getListener(const std::string& url) const

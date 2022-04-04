@@ -14,10 +14,13 @@ int main()
     
     
 //    std::this_thread::sleep_for(std::chrono::milliseconds(100));
-    
+
+    auto exchange1 = msgSystem->createExchange("localhost:5672/client");
     auto customer = msgSystem->createConsumer("localhost:5673/render");
+//    auto customer2 = msgSystem->createConsumer("localhost:5673/render");
     
-    auto producer1 = msgSystem->createProducer("localhost:5673/client");
+//    std::this_thread::sleep_for(std::chrono::milliseconds(100));
+    auto producer1 = msgSystem->createProducer("localhost:5672/client");
 //    std::this_thread::sleep_for(std::chrono::milliseconds(10000));
     auto producer2 = msgSystem->createProducer("localhost:5673/render");
     
@@ -30,6 +33,7 @@ int main()
 //      update();
 //      render();
         producer2->publish();
+        producer1->publish();
 
         std::this_thread::sleep_for(std::chrono::milliseconds(100));
     }

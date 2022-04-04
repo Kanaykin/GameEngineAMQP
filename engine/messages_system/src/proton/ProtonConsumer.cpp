@@ -21,6 +21,8 @@ ProtonConsumer::~ProtonConsumer()
 
 void ProtonConsumer::restart()
 {
+//    std::unique_lock lk(_lock);
+    
     _container = std::make_unique<proton::container>(*this);
     _thread = std::make_unique<std::thread>([this]() {
         try
@@ -32,6 +34,8 @@ void ProtonConsumer::restart()
             std::cout << "Error " << e.what() << std::endl;
         }
     });
+//    while(!_containerStarted)
+//        _contStarted.wait(lk);
 }
 
 //void ProtonConsumer::on_connection_open(proton::connection& connection)
@@ -44,7 +48,7 @@ void ProtonConsumer::on_sender_open(proton::sender &sender)
     std::cout << "ProtonConsumer::on_sender_open " << std::endl;
     if (sender.source().dynamic())
     {
-        std::string addr = "1";
+        std::string addr = "sound";
         sender.open(proton::sender_options().source(proton::source_options().address(addr)));
         senders[addr] = sender;
     }
@@ -58,9 +62,13 @@ void ProtonConsumer::on_message(proton::delivery& delivery, proton::message& m)
 
 void ProtonConsumer::on_container_start(proton::container& c)
 {
+//    std::lock_guard lk(_lock);
     std::cout << "ProtonConsumer::on_container_start to " << _url << std::endl;
     
 //    _connection = c.connect(_url);
 //    _connection.open_receiver("examples");
     c.listen(_url, _listen_handler);
+    
+//    _containerStarted = true;
+//    _contStarted.notify_one();
 }

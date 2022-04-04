@@ -49,7 +49,7 @@ private:
     std::string _url;
 //
 
-    proton::work_queue* _work_queue = nullptr;
+    proton::work_queue* _workQueue = nullptr;
     std::mutex _lock;
 };
 

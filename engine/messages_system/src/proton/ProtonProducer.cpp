@@ -11,8 +11,8 @@
 
 using namespace messages_system;
 
-ProtonProducer::ProtonProducer(const std::string& url):
-_url(url)
+ProtonProducer::ProtonProducer(const ProducerOptions& options):
+_url(options.url)
 {
     restart();
 }

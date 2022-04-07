@@ -5,6 +5,11 @@
 namespace messages_system
 {
 
+struct ProducerOptions
+{
+    std::string url;
+};
+
 class IProducer
 {
 public:

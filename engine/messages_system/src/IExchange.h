@@ -5,6 +5,11 @@
 namespace messages_system
 {
 
+struct ExchangeOptions
+{
+    std::string url;
+};
+
 class IExchange
 {
 public:

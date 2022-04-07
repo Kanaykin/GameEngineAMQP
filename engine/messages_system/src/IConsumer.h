@@ -5,6 +5,12 @@
 namespace messages_system
 {
 
+struct ConsumerOptions
+{
+    std::string url;
+    bool direct = false;
+};
+
 class IConsumer
 {
 public:

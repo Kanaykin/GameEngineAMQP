@@ -43,13 +43,13 @@ ProtonMsgSystem::~ProtonMsgSystem()
 //        _thread->join();
 }
 
-IProducerPtr ProtonMsgSystem::createProducer(const std::string& url)
+IProducerPtr ProtonMsgSystem::createProducer(const ProducerOptions& options)
 {
 //    std::unique_lock<std::mutex> l(_lock);
 //
 //    getListener(url);
     
-    auto producer = std::make_shared<ProtonProducer>(url);
+    auto producer = std::make_shared<ProtonProducer>(options);
 //    auto&& openSender = proton::work([=](){
 //        auto sender = _container->open_sender(url);
 //        producer->setSender(sender);
@@ -67,14 +67,14 @@ IProducerPtr ProtonMsgSystem::createProducer(const std::string& url)
     return producer;
 }
 
-IConsumerPtr ProtonMsgSystem::createConsumer(const std::string& url)
+IConsumerPtr ProtonMsgSystem::createConsumer(const ConsumerOptions& options)
 {
 //    auto receiver = _container->open_receiver(url);
 //    return std::make_shared<ProtonConsumer>(receiver);
-    return std::make_shared<ProtonConsumer>(url);
+    return std::make_shared<ProtonConsumer>(options);
 }
 
-IExchangePtr ProtonMsgSystem::createExchange(const std::string& url)
+IExchangePtr ProtonMsgSystem::createExchange(const ExchangeOptions& options)
 {
 //    std::unique_lock<std::mutex> l(_lock);
 //    // We can create exchange after container started.
@@ -82,7 +82,7 @@ IExchangePtr ProtonMsgSystem::createExchange(const std::string& url)
 //    auto exchange = std::make_shared<ProtonExchange>(url);
 //    listener->addListener(exchange->getListener());
 //    return exchange;
-    return std::make_shared<ProtonExchange>(url);
+    return std::make_shared<ProtonExchange>(options);
 }
 
 //ProtonMsgSystem::ProtonMsgListenerPtr ProtonMsgSystem::getListener(const std::string& url) const

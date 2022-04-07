@@ -25,11 +25,11 @@ public:
     
     ~ProtonMsgSystem();
     
-    IProducerPtr createProducer(const std::string& url) override;
+    IProducerPtr createProducer(const ProducerOptions& options) override;
     
-    IConsumerPtr createConsumer(const std::string& url) override;
+    IConsumerPtr createConsumer(const ConsumerOptions& options) override;
     
-    IExchangePtr createExchange(const std::string& url) override;
+    IExchangePtr createExchange(const ExchangeOptions& options) override;
     
 private:
     typedef std::shared_ptr<ProtonMsgListener> ProtonMsgListenerPtr;

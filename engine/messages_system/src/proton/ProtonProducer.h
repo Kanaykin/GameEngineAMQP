@@ -14,7 +14,7 @@ namespace messages_system
 class ProtonProducer : public proton::messaging_handler, public IProducer
 {
 public:
-    explicit ProtonProducer(const std::string& url);
+    explicit ProtonProducer(const ProducerOptions& options);
     
     ~ProtonProducer();
     

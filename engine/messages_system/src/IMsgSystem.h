@@ -16,11 +16,11 @@ class IMsgSystem
 public:
     virtual ~IMsgSystem() {}
     
-    virtual IProducerPtr createProducer(const std::string& url) = 0;
+    virtual IProducerPtr createProducer(const ProducerOptions& options) = 0;
     
-    virtual IConsumerPtr createConsumer(const std::string& url) = 0;
+    virtual IConsumerPtr createConsumer(const ConsumerOptions& options) = 0;
     
-    virtual IExchangePtr createExchange(const std::string& url) = 0;
+    virtual IExchangePtr createExchange(const ExchangeOptions& options) = 0;
     
 //    virtual void run() = 0;
 };

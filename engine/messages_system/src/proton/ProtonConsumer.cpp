@@ -6,8 +6,9 @@
 
 using namespace messages_system;
 
-ProtonConsumer::ProtonConsumer(const std::string& url):
-_url(url)
+ProtonConsumer::ProtonConsumer(const ConsumerOptions& options):
+_url(options.url),
+_direct(options.direct)
 {
     restart();
 }
@@ -66,8 +67,15 @@ void ProtonConsumer::on_container_start(proton::container& c)
     std::cout << "ProtonConsumer::on_container_start to " << _url << std::endl;
     
     // #TODO: c.listen(_url, _listen_handler);
-    _connection = c.connect(_url);
-    _connection.open_receiver("client");
+    if (_direct)
+    {
+        c.listen(_url, _listen_handler);
+    }
+    else
+    {
+        _connection = c.connect(_url);
+        _connection.open_receiver("client");
+    }
     ///------
 //    c.listen(_url, _listen_handler);
     

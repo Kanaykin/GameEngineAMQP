@@ -22,7 +22,7 @@ class ProtonConsumer : public proton::messaging_handler, public IConsumer
         }
     };
 public:
-    explicit ProtonConsumer(const std::string& url);
+    explicit ProtonConsumer(const ConsumerOptions& options);
     
     ~ProtonConsumer();
     
@@ -39,12 +39,13 @@ private:
     void restart();
     
     std::string _url;
+    bool _direct = false;
     
     std::unique_ptr<proton::container>  _container;
     std::unique_ptr<std::thread>        _thread;
     std::mutex                          _lock;
-    std::condition_variable             _contStarted;
-    bool _containerStarted = false;
+//    std::condition_variable             _contStarted;
+//    bool _containerStarted = false;
     
     proton::receiver _receiver;
     proton::connection _connection;

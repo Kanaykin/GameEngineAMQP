@@ -21,7 +21,7 @@ class ProtonExchange : public IExchange
 {
     friend class ProtonMsgSystem;
 public:
-    explicit ProtonExchange(const std::string& url);
+    explicit ProtonExchange(const ExchangeOptions& options);
     
     ~ProtonExchange();
     

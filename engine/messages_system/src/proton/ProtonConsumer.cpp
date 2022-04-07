@@ -65,9 +65,11 @@ void ProtonConsumer::on_container_start(proton::container& c)
 //    std::lock_guard lk(_lock);
     std::cout << "ProtonConsumer::on_container_start to " << _url << std::endl;
     
-//    _connection = c.connect(_url);
-//    _connection.open_receiver("examples");
-    c.listen(_url, _listen_handler);
+    // #TODO: c.listen(_url, _listen_handler);
+    _connection = c.connect(_url);
+    _connection.open_receiver("client");
+    ///------
+//    c.listen(_url, _listen_handler);
     
 //    _containerStarted = true;
 //    _contStarted.notify_one();

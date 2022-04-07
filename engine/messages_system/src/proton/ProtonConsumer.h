@@ -46,8 +46,8 @@ private:
     std::condition_variable             _contStarted;
     bool _containerStarted = false;
     
-//    proton::receiver _receiver;
-//    proton::connection _connection;
+    proton::receiver _receiver;
+    proton::connection _connection;
     listener_ready_handler _listen_handler;
     
     typedef std::map<std::string, proton::sender> sender_map;

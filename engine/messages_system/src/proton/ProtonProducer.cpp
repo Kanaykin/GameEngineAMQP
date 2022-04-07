@@ -96,7 +96,7 @@ void ProtonProducer::on_receiver_open(proton::receiver &)
 //    send_request();
     proton::message req;
     req.body("test");
-//    _workQueue = &_sender.work_queue();
+    _workQueue = &_sender.work_queue();
 //    req.address("render");
 //    req.reply_to("client");
 //    req.reply_to(_receiver.source().address());

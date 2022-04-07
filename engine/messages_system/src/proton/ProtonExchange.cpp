@@ -7,8 +7,8 @@ using namespace messages_system;
 
 ProtonExchange::ProtonExchange(const std::string& url)
 {
-    _container = std::make_unique<proton::container>("broker");
-    _queues = std::make_shared<ProtonExchangeQueueManager>();
+    _container = std::make_shared<proton::container>("broker");
+    _queues = std::make_shared<ProtonExchangeQueueManager>(_container);
     _listener = std::make_unique<ProtonExchangeListener>(_queues);
     
     _container->listen(url, *_listener.get());

@@ -10,6 +10,8 @@
 #include <proton/source_options.hpp>
 
 #include "ProtonExchangeSender.h"
+#include "ProtonExchangeReceiver.h"
+#include "ProtonExchangeQueueManager.h"
 
 using namespace messages_system;
 
@@ -25,7 +27,8 @@ void ProtonExchangeConnHandler::on_sender_open(proton::sender &sender)
     std::string qn = sender.source().dynamic() ? "" : sender.source().address();
     auto s = std::make_shared<ProtonExchangeSender>(sender);//, senders_);
     _senders[sender] = s;
-//        queue_manager_.add(make_work(&QueueManager::findQueueSender, &queue_manager_, s, qn));
+    if(!_queues.expired())
+        _queues.lock()->findQueueSender(s.get(), qn);
 }
 
 void ProtonExchangeConnHandler::on_connection_open(proton::connection& c)
@@ -41,11 +44,15 @@ void ProtonExchangeConnHandler::on_receiver_open(proton::receiver &receiver)
     std::cout << "ProtonExchangeConnHandler::on_receiver_open " << std::endl;
 
     const std::string qname = receiver.target().address();
-    receiver.open(proton::receiver_options()
-        .source((proton::source_options().address(qname))));
-//        std::string qname = receiver.target().address();
-//        Receiver* r = new Receiver(receiver);
-//        queue_manager_.add(make_work(&QueueManager::findQueueReceiver, &queue_manager_, r, qname));
+    auto r = std::make_shared<ProtonExchangeReceiver>(receiver);//, senders_);
+    
+    _receivers[receiver] = r;
+    
+    if(!_queues.expired())
+        _queues.lock()->findQueueReceiver(r.get(), qname);
+    
+//    receiver.open(proton::receiver_options()
+//        .source((proton::source_options().address(qname))));
 }
 
 void ProtonExchangeConnHandler::on_session_close(proton::session &session)

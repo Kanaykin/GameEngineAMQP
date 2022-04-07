@@ -29,7 +29,7 @@ private:
     
 //    std::shared_ptr<proton::listen_handler> getListener() const;
     
-    std::unique_ptr<proton::container> _container;
+    std::shared_ptr<proton::container> _container;
     std::unique_ptr<ProtonExchangeListener> _listener;
     typedef std::shared_ptr<ProtonExchangeQueueManager> ProtonExchangeQueueManagerPtr;
     ProtonExchangeQueueManagerPtr _queues;

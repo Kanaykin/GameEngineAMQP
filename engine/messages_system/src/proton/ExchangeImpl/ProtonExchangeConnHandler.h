@@ -12,6 +12,7 @@ namespace messages_system
 
 class ProtonExchangeSender;
 class ProtonExchangeQueueManager;
+class ProtonExchangeReceiver;
 
 class ProtonExchangeConnHandler : public proton::messaging_handler
 {
@@ -42,6 +43,12 @@ public:
     typedef std::map<proton::sender, ProtonExchangeSenderPtr> ProtonExchangeSenderMap;
     
     ProtonExchangeSenderMap _senders;
+    
+    typedef std::shared_ptr<ProtonExchangeReceiver> ProtonExchangeReceiverPtr;
+    typedef std::map<proton::receiver, ProtonExchangeReceiverPtr> ProtonExchangeReceiverMap;
+    
+    ProtonExchangeReceiverMap _receivers;
+    
     ProtonExchangeQueueManagerWPtr _queues;
 };
 

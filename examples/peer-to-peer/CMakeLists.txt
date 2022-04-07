@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.10)
 
 # set the project name
-set(PROJECT_NAME server)
+set(PROJECT_NAME peer-to-peer)
 project(${PROJECT_NAME})
 
 message(STATUS "CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH}")

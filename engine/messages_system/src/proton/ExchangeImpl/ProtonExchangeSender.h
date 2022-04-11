@@ -13,10 +13,8 @@ typedef std::weak_ptr<ProtonExchangeQueue> ProtonExchangeQueueWPtr;
 
 class ProtonExchangeSender : public proton::messaging_handler
 {
-//    friend class connection_handler;
-    
 public:
-    explicit ProtonExchangeSender(const proton::sender& s/*, senders& ss*/) :
+    explicit ProtonExchangeSender(const proton::sender& s) :
     _sender(s), _workQueue(s.work_queue())//, queue_(0), pending_credit_(0)
     {}
     

@@ -28,6 +28,7 @@ int main()
     
 //    msgSystem->run();
     
+    // #TODO: Need application class with right exit
     while (true)
     {
 //      double start = getCurrentTime();

@@ -28,6 +28,7 @@ void ProtonExchangeQueue::subscribe(ProtonExchangeSender* s)
 
 void ProtonExchangeQueue::flow(ProtonExchangeSender* s, int c)
 {
+    // #TODO: Need deal with pending_credit_
 //    DOUT(std::cerr << "Queue:    " << this << "(" << name_ << ") flow: " << c << " to " << s << "\n";);
     _subscriptions[s] = c;
     tryToSend();

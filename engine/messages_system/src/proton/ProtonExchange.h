@@ -23,15 +23,13 @@ class ProtonExchange : public IExchange
 public:
     explicit ProtonExchange(const ExchangeOptions& options);
     
-    ~ProtonExchange();
+    ~ProtonExchange() override;
     
 private:
-    
-//    std::shared_ptr<proton::listen_handler> getListener() const;
+    typedef std::shared_ptr<ProtonExchangeQueueManager> ProtonExchangeQueueManagerPtr;
     
     std::shared_ptr<proton::container> _container;
     std::unique_ptr<ProtonExchangeListener> _listener;
-    typedef std::shared_ptr<ProtonExchangeQueueManager> ProtonExchangeQueueManagerPtr;
     ProtonExchangeQueueManagerPtr _queues;
     
     std::unique_ptr<std::thread> _thread;

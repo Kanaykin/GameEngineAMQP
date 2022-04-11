@@ -16,52 +16,18 @@
 namespace messages_system
 {
 
-class ProtonMsgListener;
-
 class ProtonMsgSystem: public IMsgSystem
 {
 public:
     ProtonMsgSystem();
     
-    ~ProtonMsgSystem();
+    ~ProtonMsgSystem() override;
     
     IProducerPtr createProducer(const ProducerOptions& options) override;
     
     IConsumerPtr createConsumer(const ConsumerOptions& options) override;
     
     IExchangePtr createExchange(const ExchangeOptions& options) override;
-    
-private:
-    typedef std::shared_ptr<ProtonMsgListener> ProtonMsgListenerPtr;
-    
-//    void on_container_start(proton::container &c) override;
-//
-//    void on_container_stop(proton::container &c) override;
-//
-//    void on_connection_close(proton::connection& connection) override;
-//
-//    void on_sender_open(proton::sender &sender) override;
-//
-//    void on_sender_detach(proton::sender&) override;
-//
-//    void on_sender_close(proton::sender&) override;
-//
-//    void on_message(proton::delivery&, proton::message&) override;
-//
-//    void on_error(const proton::error_condition& error) override;
-    
-//    ProtonMsgListenerPtr getListener(const std::string& url) const;
-    
-private:
-//    std::unique_ptr<proton::container> _container;
-//    std::unique_ptr<std::thread> _thread;
-//    bool _container_started = false;
-//    
-//    mutable std::mutex _lock;
-//    std::vector<proton::work> _work_queue;
-//    
-//    typedef std::unordered_map<std::string, ProtonMsgListenerPtr> ProtonMsgListenerMap;
-//    mutable ProtonMsgListenerMap _listeners;;
 };
 
 }

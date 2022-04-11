@@ -22,7 +22,6 @@ public:
     
     virtual IExchangePtr createExchange(const ExchangeOptions& options) = 0;
     
-//    virtual void run() = 0;
 };
 
 }

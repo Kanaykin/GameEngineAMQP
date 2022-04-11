@@ -28,8 +28,3 @@ ProtonExchange::~ProtonExchange()
 {
     
 }
-
-//std::shared_ptr<proton::listen_handler> ProtonExchange::getListener() const
-//{
-//    return _listener;
-//}

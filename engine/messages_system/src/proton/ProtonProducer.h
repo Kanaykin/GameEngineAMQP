@@ -20,8 +20,6 @@ public:
     
     void publish() override;
     
-//    void setSender(const proton::sender& sender);
-    
 protected:
     
     void on_container_start(proton::container &c) override;
@@ -38,7 +36,7 @@ protected:
     
 private:
     void restart();
-    proton::work_queue* work_queue();
+    proton::work_queue* getWorkQueue() const;
     
     std::unique_ptr<proton::container>  _container;
     std::unique_ptr<std::thread>        _thread;

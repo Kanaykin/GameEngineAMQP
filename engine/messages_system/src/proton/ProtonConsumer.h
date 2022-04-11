@@ -29,7 +29,7 @@ public:
 protected:
     void on_container_start(proton::container& c) override;
     
-//    void on_connection_open(proton::connection& connection) override;
+    // #TODO: Need error process after container close or container error
     
     void on_message(proton::delivery& delivery, proton::message& m) override;
     
@@ -44,8 +44,6 @@ private:
     std::unique_ptr<proton::container>  _container;
     std::unique_ptr<std::thread>        _thread;
     std::mutex                          _lock;
-//    std::condition_variable             _contStarted;
-//    bool _containerStarted = false;
     
     proton::receiver _receiver;
     proton::connection _connection;

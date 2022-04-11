@@ -12,13 +12,14 @@ using namespace messages_system;
 
 void ProtonExchangeSender::boundQueue(const ProtonExchangeQueueWPtr& q, const std::string& qn)
 {
-//    q->add(make_work(&Queue::subscribe, q, this));
     _queue = q;
     if(!q.expired())
         q.lock()->subscribe(this);
+
     _sender.open(proton::sender_options()
         .source((proton::source_options().address(qn)))
         .handler(*this));
+    // #TODO: Need deal with pending_credit_
 //    if (pending_credit_>0) {
 //        queue_->add(make_work(&Queue::flow, queue_, this, pending_credit_));
 //    }
@@ -29,7 +30,6 @@ void ProtonExchangeSender::sendMsg(const proton::message& m)
 {
 //    DOUT(std::cerr << "Sender:   " << this << " sending\n";);
     _workQueue.add(proton::make_work([=](){_sender.send(m);}));
-//    _sender.send(m);
 }
 
 void ProtonExchangeSender::on_sendable(proton::sender &sender)
@@ -40,6 +40,7 @@ void ProtonExchangeSender::on_sendable(proton::sender &sender)
     }
     else
     {
+        // #TODO: Need deal with pending_credit_
 //        pending_credit_ = sender.credit();
     }
 }

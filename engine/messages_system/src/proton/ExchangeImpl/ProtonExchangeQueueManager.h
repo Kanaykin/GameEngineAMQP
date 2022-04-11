@@ -36,6 +36,7 @@ private:
 template <class T>
 void ProtonExchangeQueueManager::findQueue(T& connection, const std::string& qn)
 {
+    // #TODO: implement method of creating of dynamic id
 //        if (qn.empty()) {
 //            // Dynamic queue creation
 //            std::ostringstream os;

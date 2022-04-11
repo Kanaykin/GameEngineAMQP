@@ -19,6 +19,7 @@ _url(options.url)
 
 void ProtonProducer::restart()
 {
+    // #FIXME: Need thread pool
     _container = std::make_unique<proton::container>(*this);
     _thread = std::make_unique<std::thread>([this]() {
         try
@@ -60,17 +61,9 @@ void ProtonProducer::on_error(const proton::error_condition& error)
     std::cout << "ProtonProducer::on_error " << error.name() << " description " << error.description() << std::endl;
 }
 
-//void ProtonProducer::setSender(const proton::sender& sender)
-//{
-//    _sender = sender;
-//    proton::receiver_options opts = proton::receiver_options().source(proton::source_options().dynamic(true));
-//    _receiver = _sender.connection().open_receiver("", opts);
-//
-//    _work_queue = &_sender.work_queue();
-//}
-
 ProtonProducer::~ProtonProducer()
 {
+    // #TODO: Need base class for all classes with container and thread
     _container->stop();
     if (_thread)
         _thread->join();
@@ -86,20 +79,16 @@ void ProtonProducer::publish()
 //    req.reply_to("client");
 //    req.reply_to(_receiver.source().address());
 
-    if (work_queue())
-        work_queue()->add([=]() { _sender.send(req); });
+    if (auto queue = getWorkQueue())
+        queue->add([=]() { _sender.send(req); });
 }
 
 void ProtonProducer::on_receiver_open(proton::receiver &)
 {
     std::cout << "ProtonProducer::on_receiver_open " << std::endl;
-//    send_request();
     proton::message req;
     req.body("test");
     _workQueue = &_sender.work_queue();
-//    req.address("render");
-//    req.reply_to("client");
-//    req.reply_to(_receiver.source().address());
 
     _sender.send(req);
 }
@@ -117,10 +106,7 @@ void ProtonProducer::on_message(proton::delivery& delivery, proton::message& m)
     std::cout << "ProtonProducer::on_message " << m.body() << " reply_to" << reply_to << std::endl;
 }
 
-proton::work_queue* ProtonProducer::work_queue()
+proton::work_queue* ProtonProducer::getWorkQueue() const
 {
-    // Wait till work_queue_ and sender_ are initialized.
-//    std::unique_lock<std::mutex> l(_lock);
-//    while (!_work_queue) sender_ready_.wait(l);
     return _workQueue;
 }

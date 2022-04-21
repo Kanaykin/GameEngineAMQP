@@ -40,6 +40,7 @@ private:
     
     std::string _url;
     bool _direct = false;
+    std::string _name;
     
     std::unique_ptr<proton::container>  _container;
     std::unique_ptr<std::thread>        _thread;

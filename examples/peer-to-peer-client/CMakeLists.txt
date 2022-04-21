@@ -1,11 +1,12 @@
 cmake_minimum_required(VERSION 3.10)
 
 # set the project name
-set(PROJECT_NAME hello_world_rabbitmq)
+set(PROJECT_NAME peer-to-peer-client)
 project(${PROJECT_NAME})
 
 message(STATUS "CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH}")
-include(rabbitmq)
+include(messages_system)
+include(qpid-proton)
 include(group_files)
 
 set(PROJECT_SOURCE_DIR src)

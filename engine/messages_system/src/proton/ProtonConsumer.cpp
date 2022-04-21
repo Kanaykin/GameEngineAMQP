@@ -8,7 +8,8 @@ using namespace messages_system;
 
 ProtonConsumer::ProtonConsumer(const ConsumerOptions& options):
 _url(options.url),
-_direct(options.direct)
+_direct(options.direct),
+_name(options.name)
 {
     restart();
 }
@@ -16,6 +17,10 @@ _direct(options.direct)
 ProtonConsumer::~ProtonConsumer()
 {
     // #TODO: Need base class for all classes with container and thread
+    if (_connection.active())
+    {
+        _connection.close();
+    }
     _container->stop();
     if (_thread)
         _thread->join();
@@ -51,7 +56,7 @@ void ProtonConsumer::on_sender_open(proton::sender &sender)
 void ProtonConsumer::on_message(proton::delivery& delivery, proton::message& m)
 {
     std::string reply_to = m.reply_to();
-    std::cout << "ProtonConsumer::on_message " << m.body() << " reply_to" << reply_to << std::endl;
+    std::cout << "ProtonConsumer::on_message [" << _name << "] " << m.body() << " reply_to" << reply_to << std::endl;
 }
 
 void ProtonConsumer::on_container_start(proton::container& c)

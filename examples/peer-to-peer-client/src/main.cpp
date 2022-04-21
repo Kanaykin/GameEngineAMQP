@@ -7,7 +7,6 @@ static const std::chrono::duration<double> LIVE_TIME(2.0);
 int main()
 {
     auto msgSystem = messages_system::createMsgSystem("ProtonMsg");
-    auto consumer = msgSystem->createConsumer({"127.0.0.1:5672", true, "consumer"});
     auto producer = msgSystem->createProducer({"127.0.0.1:5672"});
     
     auto start = std::chrono::steady_clock::now();

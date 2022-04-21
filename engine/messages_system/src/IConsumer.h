@@ -9,6 +9,7 @@ struct ConsumerOptions
 {
     std::string url;
     bool direct = false;
+    std::string name;
 };
 
 class IConsumer

@@ -26,5 +26,8 @@ ProtonExchange::ProtonExchange(const ExchangeOptions& options)
 
 ProtonExchange::~ProtonExchange()
 {
-    
+    // #TODO: Need base class for all classes with container and thread
+    _container->stop();
+    if (_thread)
+        _thread->join();
 }

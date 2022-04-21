@@ -1,2 +1,3 @@
 build/
 dependence/
+*.pyc

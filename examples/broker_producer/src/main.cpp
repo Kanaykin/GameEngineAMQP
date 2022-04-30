@@ -12,11 +12,13 @@ int main()
 {
     auto msgSystem = messages_system::createMsgSystem("ProtonMsg");
     
-    auto producer1 = msgSystem->createProducer({"localhost:5672/client"});
+    auto producer1 = msgSystem->createProducer({"localhost:5672/customer1"});
+    auto producer2 = msgSystem->createProducer({"localhost:5672/customer2"});
     auto start = std::chrono::steady_clock::now();
     while (true)
     {
         producer1->publish();
+        producer2->publish();
         std::this_thread::sleep_for(std::chrono::milliseconds(100));
         
         auto end = std::chrono::steady_clock::now();

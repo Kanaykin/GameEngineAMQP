@@ -11,8 +11,8 @@ static const std::chrono::duration<double> LIVE_TIME(2.0);
 int main()
 {
     auto msgSystem = messages_system::createMsgSystem("ProtonMsg");
-    auto customer = msgSystem->createConsumer({"localhost:5672/client", false, "customer1"});
-    auto customer2 = msgSystem->createConsumer({"localhost:5672/client", false, "customer2"});
+    auto customer = msgSystem->createConsumer({"localhost:5672", false, "customer1"});
+    auto customer2 = msgSystem->createConsumer({"localhost:5672", false, "customer2"});
     
     auto start = std::chrono::steady_clock::now();
     while (true)

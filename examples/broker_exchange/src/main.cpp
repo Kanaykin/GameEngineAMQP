@@ -12,7 +12,7 @@ int main()
 {
     auto msgSystem = messages_system::createMsgSystem("ProtonMsg");
     
-    auto exchange1 = msgSystem->createExchange({"localhost:5672/client"});
+    auto exchange1 = msgSystem->createExchange({"localhost:5672"});
     
     auto start = std::chrono::steady_clock::now();
     while (true)

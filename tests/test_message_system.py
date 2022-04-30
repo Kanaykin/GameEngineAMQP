@@ -24,11 +24,11 @@ def multy_proc_tests(cmds, checkResultFunc):
 	checkResultFunc(full_out)
 	
 
-class TestWeekendDays(unittest.TestCase):
+class MessageSystemTest(unittest.TestCase):
 
-	def test_broker(self):
+	def test_simple_broker(self):
 		
-		print("test_broker ")
+		print("test_simple_broker")
 		result = subprocess.run(BIN_DIR + 'simple_broker', capture_output=True)
 
 		self.assertFalse(str(result.stdout).find("ProtonConsumer::on_message [customer1]") == -1)

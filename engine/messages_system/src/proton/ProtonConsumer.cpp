@@ -70,6 +70,6 @@ void ProtonConsumer::on_container_start(proton::container& c)
     else
     {
         _connection = c.connect(_url);
-        _connection.open_receiver("client");
+        _connection.open_receiver(_name);
     }
 }

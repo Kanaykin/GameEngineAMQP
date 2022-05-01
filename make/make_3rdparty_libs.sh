@@ -41,3 +41,17 @@ cd build
 
 cmake .. -DBUILD_EXAMPLES=0 -DBUILD_STATIC_LIBS=1 -DPROACTOR=libuv -DCMAKE_INSTALL_PREFIX=${ROOT_DIR}/dependence/qpid-proton
 cmake --build . --target install
+
+# logging-log4cxx
+#------------------
+brew install apr
+brew install apr-util
+
+cd ${ROOT_DIR}/engine/3rdparty/logging-log4cxx
+
+mkdir build 
+cd build
+
+# -DBUILD_SHARED_LIBS=0
+cmake ..  -DCMAKE_INSTALL_PREFIX=${ROOT_DIR}/dependence/logging-log4cxx
+cmake --build . --target install

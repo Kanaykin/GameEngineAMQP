@@ -561,7 +561,7 @@ int portable_vsnprintf(char *str, size_t str_m, const char *fmt, va_list ap) {
       size_t n = !q ? strlen(p) : (q-p);
       if (str_l < str_m) {
         size_t avail = str_m-str_l;
-        fast_memcpy(str+str_l, p, (n>avail?avail:n));
+          std::memcpy(str+str_l, p, (n>avail?avail:n));
       }
       p += n; str_l += n;
     } else {
@@ -946,7 +946,7 @@ int portable_vsnprintf(char *str, size_t str_m, const char *fmt, va_list ap) {
         if (n > 0) {
           if (str_l < str_m) {
             size_t avail = str_m-str_l;
-            fast_memset(str+str_l, (zero_padding?'0':' '), (n>avail?avail:n));
+              std::memcpy(str+str_l, (zero_padding?"0":" "), (n>avail?avail:n));
           }
           str_l += n;
         }
@@ -963,7 +963,7 @@ int portable_vsnprintf(char *str, size_t str_m, const char *fmt, va_list ap) {
         if (n > 0) {
           if (str_l < str_m) {
             size_t avail = str_m-str_l;
-            fast_memcpy(str+str_l, str_arg, (n>avail?avail:n));
+              std::memcpy(str+str_l, str_arg, (n>avail?avail:n));
           }
           str_l += n;
         }
@@ -972,7 +972,7 @@ int portable_vsnprintf(char *str, size_t str_m, const char *fmt, va_list ap) {
         if (n > 0) {
           if (str_l < str_m) {
             size_t avail = str_m-str_l;
-            fast_memset(str+str_l, '0', (n>avail?avail:n));
+              std::memcpy(str+str_l, "0", (n>avail?avail:n));
           }
           str_l += n;
         }
@@ -983,7 +983,7 @@ int portable_vsnprintf(char *str, size_t str_m, const char *fmt, va_list ap) {
         if (n > 0) {
           if (str_l < str_m) {
             size_t avail = str_m-str_l;
-            fast_memcpy(str+str_l, str_arg+zero_padding_insertion_ind,
+              std::memcpy(str+str_l, str_arg+zero_padding_insertion_ind,
                         (n>avail?avail:n));
           }
           str_l += n;
@@ -995,7 +995,7 @@ int portable_vsnprintf(char *str, size_t str_m, const char *fmt, va_list ap) {
         if (n > 0) {
           if (str_l < str_m) {
             size_t avail = str_m-str_l;
-            fast_memset(str+str_l, ' ', (n>avail?avail:n));
+              std::memset(str+str_l, ' ', (n>avail?avail:n));
           }
           str_l += n;
         }

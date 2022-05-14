@@ -43,10 +43,10 @@ namespace log4cpp {
         return;
     }
 
-    std::auto_ptr<Appender> create_abort_appender(const FactoryParams& params)
+    std::unique_ptr<Appender> create_abort_appender(const FactoryParams& params)
     {
        std::string name;
        params.get_for("abort appender").required("name", name);
-       return std::auto_ptr<Appender>(new AbortAppender(name));
+       return std::unique_ptr<Appender>(new AbortAppender(name));
     }
 }

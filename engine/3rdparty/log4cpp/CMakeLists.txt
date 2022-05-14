@@ -88,7 +88,7 @@ ENDIF (WIN32)
 INSTALL (
   DIRECTORY include/log4cpp
   DESTINATION include
-  PATTERN "config.h" EXCLUDE
+#  PATTERN "config.h" EXCLUDE
   PATTERN ".svn" EXCLUDE
   PATTERN "*.am" EXCLUDE
   PATTERN "*.in" EXCLUDE

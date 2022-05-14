@@ -175,12 +175,12 @@ namespace log4cpp {
         return true;
     }
     
-    std::auto_ptr<Appender> create_remote_syslog_appender(const FactoryParams& params)
+    std::unique_ptr<Appender> create_remote_syslog_appender(const FactoryParams& params)
     {
        std::string name, syslog_name, relayer;
        int facility = -1, port_number = -1;
        params.get_for("remote syslog appender").required("name", name)("syslog_name", syslog_name)("relayer", relayer)
                                                .optional("facility", facility)("port", port_number);
-       return std::auto_ptr<Appender>(new RemoteSyslogAppender(name, syslog_name, relayer, facility, port_number));
+       return std::unique_ptr<Appender>(new RemoteSyslogAppender(name, syslog_name, relayer, facility, port_number));
     }
 }

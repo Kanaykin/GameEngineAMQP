@@ -1,1 +1,1 @@
-# dummy
+DllMain.lo: DllMain.cpp

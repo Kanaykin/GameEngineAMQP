@@ -61,7 +61,7 @@ done
  
 # defaults from configure; set only if not set previously
 if test -z "$prefix" ; then
-  prefix="/usr/local"
+  prefix=""
 fi
 if test -z "$exec_prefix" ; then
   exec_prefix="${prefix}"

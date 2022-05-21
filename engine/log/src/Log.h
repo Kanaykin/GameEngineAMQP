@@ -3,14 +3,16 @@
 #include <iostream>
 #include <string>
 #include <string_view>
+#include <format>
+#include "boost/format.hpp"
 
-#include "log4cpp/Category.hh"
-#include "log4cpp/Appender.hh"
-#include "log4cpp/FileAppender.hh"
-#include "log4cpp/OstreamAppender.hh"
-#include "log4cpp/Layout.hh"
-#include "log4cpp/BasicLayout.hh"
-#include "log4cpp/Priority.hh"
+
+#include "LogSingleton.h"
+
+namespace log4cpp
+{
+    class Category;
+}
 
 namespace logger
 {
@@ -21,45 +23,73 @@ enum class LogVerbosity
     Fatal,
     Error,
     Warning,
-    Display,
-    Log,
-    Verbose,
-    VeryVerbose,
-    All              = VeryVerbose
+    Info,
+    Debug,
+    All
 };
 
-#define DECLARE_LOG_CATEGORY(ClassName) \
-log4cpp::Category& root = log4cpp::Category::getRoot(); \
-log4cpp::Category& ClassName = log4cpp::Category::getInstance(std::string(#ClassName));
+class Logger
+{
+public:
+
+    Logger(const std::string& category, LogVerbosity verbosity);
+    
+    void debug(const std::string& message);
+    void info(const std::string& message);
+    void warn(const std::string& message);
+    void error(const std::string& message);
+    void fatal(const std::string& message);
+
+protected:
+    log4cpp::Category& _category;
+};
+
+#define DECLARE_LOG_CATEGORY(ClassName, Verbosity) \
+class Class##ClassName : public logger::Logger {\
+public: \
+Class##ClassName():logger::Logger(#ClassName, Verbosity){} \
+};\
+typedef logger::LogSingleton<Class##ClassName> ClassName;
+
 
 template< class... Args >
-std::string DEBUG_LOG( log4cpp::Category& category, std::string_view fmt, Args&&... args )
+std::string format(std::string_view fmt, Args&&... args )
 {
-    category.warn("sub1 warn");
+    boost::format f(std::string{fmt});
+    int unroll[] {0, (f % std::forward<Args>(args), 0)...};
+    static_cast<void>(unroll);
+    return boost::str(f);
 }
 
-template< class... Args >
-std::string INFO_LOG( log4cpp::Category& category, std::string_view fmt, Args&&... args )
+template< class LoggerCategory, class... Args >
+void DEBUG_LOG(std::string_view fmt, Args&&... args )
 {
-    category.warn("sub1 warn");
+    LoggerCategory::getInstance().debug(format(fmt, args...));
 }
 
-template< class... Args >
-std::string WARNING_LOG( log4cpp::Category& category, std::string_view fmt, Args&&... args )
+template< class LoggerCategory, class... Args >
+void INFO_LOG( std::string_view fmt, Args&&... args )
 {
-    category.warn("sub1 warn");
+    LoggerCategory::getInstance().info(format(fmt, args...));
+    
 }
 
-template< class... Args >
-std::string ERROR_LOG( log4cpp::Category& category, std::string_view fmt, Args&&... args )
+template< class LoggerCategory, class... Args >
+void WARNING_LOG( std::string_view fmt, Args&&... args )
 {
-    category.warn("sub1 warn");
+    LoggerCategory::getInstance().warn(format(fmt, args...));
 }
 
-template< class... Args >
-std::string FATAL_LOG( log4cpp::Category& category, std::string_view fmt, Args&&... args )
+template< class LoggerCategory, class... Args >
+void ERROR_LOG(std::string_view fmt, Args&&... args )
 {
-    category.warn("sub1 warn");
+    LoggerCategory::getInstance().error(format(fmt, args...));
+}
+
+template< class LoggerCategory, class... Args >
+void FATAL_LOG( std::string_view fmt, Args&&... args )
+{
+    LoggerCategory::getInstance().fatal(format(fmt, args...));
 }
 
 }

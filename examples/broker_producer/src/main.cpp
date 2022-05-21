@@ -1,6 +1,5 @@
 #include <assert.h>
 #include "MsgSystemCreator.h"
-#include "proton/ProtonMsgSystem.h"
 #include <chrono>
 #include <thread>
 #include <future>

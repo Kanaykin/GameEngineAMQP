@@ -2,6 +2,8 @@
 #include "ExchangeImpl/ProtonExchangeListener.h"
 #include "ExchangeImpl/ProtonExchangeQueueManager.h"
 
+#include "MsgSysLog.h"
+
 using namespace messages_system;
 
 
@@ -19,7 +21,7 @@ ProtonExchange::ProtonExchange(const ExchangeOptions& options)
         }
         catch (const proton::error& e)
         {
-            std::cout << "Error " << e.what() << std::endl;
+            ERROR_LOG("ProtonExchange Error %1%", e.what());
         }
     });
 }

@@ -11,6 +11,8 @@
 
 #include <iostream>
 
+#include "MsgSysLog.h"
+
 namespace messages_system
 {
 
@@ -18,7 +20,7 @@ class ProtonConsumer : public proton::messaging_handler, public IConsumer
 {
     class listener_ready_handler : public proton::listen_handler {
         void on_open(proton::listener& l) override {
-            std::cout << "listening on " << l.port() << std::endl;
+            INFO_LOG("listening on %1%", l.port());
         }
     };
 public:

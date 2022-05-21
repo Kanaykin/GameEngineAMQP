@@ -6,6 +6,7 @@ project(${PROJECT_NAME})
 
 message(STATUS "CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH}")
 include(log4cpp)
+include(boost)
 
 set(PROJECT_SOURCE_DIR src)
 include_directories(src)

@@ -8,7 +8,7 @@ int main()
 {
     auto msgSystem = messages_system::createMsgSystem("ProtonMsg");
     auto consumer = msgSystem->createConsumer({"127.0.0.1:5672", true, "consumer"});
-    auto producer = msgSystem->createProducer({"127.0.0.1:5672"});
+    auto producer = msgSystem->createProducer({"127.0.0.1:5672/customer"});
     
     auto start = std::chrono::steady_clock::now();
     while (true)

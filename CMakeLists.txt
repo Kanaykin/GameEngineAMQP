@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.10)
+cmake_minimum_required(VERSION 3.12)
 
 project(GameEngineAMQP)
 
@@ -7,9 +7,10 @@ set (CMAKE_DEPENDENCE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/dependence")
 set (CMAKE_ROOT_PATH "${CMAKE_CURRENT_SOURCE_DIR}")
 set (CMAKE_BUILD_PATH "${CMAKE_ROOT_PATH}/build")
 
-set(CMAKE_CXX_STANDARD 17)
+#set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++20")
 
 add_subdirectory (engine)
 add_subdirectory (examples)

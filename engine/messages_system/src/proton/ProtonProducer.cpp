@@ -7,6 +7,8 @@
 #include <proton/connection.hpp>
 #include <proton/work_queue.hpp>
 
+#include "MsgSysLog.h"
+
 #include <iostream>
 
 using namespace messages_system;
@@ -28,18 +30,18 @@ void ProtonProducer::restart()
         }
         catch (const proton::error& e)
         {
-            std::cout << "Error " << e.what() << std::endl;
+            ERROR_LOG("ProtonProducer Error %1%", e.what());
         }
         catch (...)
         {
-//            std::cout << "Error " << e.what() << std::endl;
+            ERROR_LOG("ProtonProducer Error ");
         }
     });
 }
 
 void ProtonProducer::on_container_start(proton::container &c)
 {
-    std::cout << "ProtonProducer::on_container_start " << std::endl;
+    INFO_LOG("ProtonProducer::on_container_start ");
     _sender = c.open_sender(_url);
 //    _workQueue = &_sender.work_queue();
     
@@ -51,14 +53,14 @@ void ProtonProducer::on_container_start(proton::container &c)
 
 void ProtonProducer::on_container_stop(proton::container &c)
 {
-    std::cout << "ProtonProducer::on_container_stop " << std::endl;
+    INFO_LOG("ProtonProducer::on_container_stop ");
 }
 //
 void ProtonProducer::on_error(const proton::error_condition& error)
 {
     // #TODO: need thread pool for restart
 //    restart();
-    std::cout << "ProtonProducer::on_error " << error.name() << " description " << error.description() << std::endl;
+    ERROR_LOG("ProtonProducer::on_error %1%  description %2%", error.name(), error.description());
 }
 
 ProtonProducer::~ProtonProducer()
@@ -85,7 +87,7 @@ void ProtonProducer::publish()
 
 void ProtonProducer::on_receiver_open(proton::receiver &)
 {
-    std::cout << "ProtonProducer::on_receiver_open " << std::endl;
+    INFO_LOG("ProtonProducer::on_receiver_open ");
     proton::message req;
     req.body("test");
     _workQueue = &_sender.work_queue();
@@ -95,7 +97,7 @@ void ProtonProducer::on_receiver_open(proton::receiver &)
 
 void ProtonProducer::on_sender_open(proton::sender &s)
 {
-    std::cout << "ProtonProducer::on_sender_open " << std::endl;
+    INFO_LOG("ProtonProducer::on_sender_open ");
     _sender = s;
     _workQueue = &s.work_queue();
 }
@@ -103,7 +105,7 @@ void ProtonProducer::on_sender_open(proton::sender &s)
 void ProtonProducer::on_message(proton::delivery& delivery, proton::message& m)
 {
     std::string reply_to = m.reply_to();
-    std::cout << "ProtonProducer::on_message " << m.body() << " reply_to" << reply_to << std::endl;
+    INFO_LOG("ProtonProducer::on_message %1%  reply_to %2%", m.body(), reply_to);
 }
 
 proton::work_queue* ProtonProducer::getWorkQueue() const

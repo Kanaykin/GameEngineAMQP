@@ -7,11 +7,13 @@
 
 #include <iostream>
 
+#include "MsgSysLog.h"
+
 using namespace messages_system;
 
 void ProtonExchangeReceiver::on_message(proton::delivery &, proton::message &m)
 {
-    std::cout << "ProtonExchangeReceiver::on_message " << std::endl;
+    INFO_LOG("ProtonExchangeReceiver::on_message ");
     
     _messages.push_back(m);
 
@@ -23,7 +25,7 @@ void ProtonExchangeReceiver::on_message(proton::delivery &, proton::message &m)
 
 void ProtonExchangeReceiver::queueMsgs()
 {
-//    DOUT(std::cerr << "Receiver: " << this << " queueing " << messages_.size() << " msgs to: " << queue_ << "\n";);
+    INFO_LOG("ProtonExchangeReceiver:: Receiver  queueing %1%  msgs", _messages.size());
     while (!_messages.empty())
     {
 //        queue_->add(make_work(&Queue::queueMsg, queue_, messages_.front()));
@@ -37,12 +39,12 @@ void ProtonExchangeReceiver::queueMsgs()
 
 void ProtonExchangeReceiver::boundQueue(const ProtonExchangeQueueWPtr& q, const std::string& qn)
 {
-    std::cout <<  "ProtonExchangeReceiver::boundQueue bound to Queue:  (" << qn << ")\n"  << std::endl;
+    INFO_LOG("ProtonExchangeReceiver::boundQueue bound to Queue:  (%1%)\n", qn);
     _queue = q;
     _receiver.open(proton::receiver_options()
         .source((proton::source_options().address(qn)))
         .handler(*this));
-    std::cout << "receiving to " << qn << std::endl;
+    INFO_LOG("ProtonExchangeReceiver::receiving to %1%", qn);
 
     queueMsgs();
 }

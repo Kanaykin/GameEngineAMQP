@@ -5,10 +5,10 @@ set(PROJECT_NAME messages_system)
 project(${PROJECT_NAME})
 
 message(STATUS "CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH}")
-#include(rabbitmq)
-#include(amqpcpp)
+include(log)
 include(qpid-proton)
 include(group_files)
+include(boost)
 
 set(PROJECT_SOURCE_DIR src)
 include_directories(src)

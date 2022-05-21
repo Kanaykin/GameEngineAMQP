@@ -10,6 +10,8 @@ function(MAKE_EXAMPLE_APP proj_name include_modules)
         message(STATUS "X=${module}")
         include(${module})
     endforeach()
+    include(log)
+    include(boost)
 
     set(PROJECT_SOURCE_DIR src)
 
@@ -23,6 +25,9 @@ function(MAKE_EXAMPLE_APP proj_name include_modules)
 
     add_executable(${PROJECT_NAME} ${SRC})
     target_link_libraries(${PROJECT_NAME} ${LIBRARIES})
+    
+    set_property(TARGET ${PROJECT_NAME} PROPERTY CXX_STANDARD 20)
+
 
     install (TARGETS ${PROJECT_NAME} RUNTIME DESTINATION ${CMAKE_BUILD_PATH}/bin/${CMAKE_BUILD_TYPE})
 endfunction()

@@ -4,6 +4,8 @@
 #include <proton/message.hpp>
 #include <proton/source_options.hpp>
 
+#include "MsgSysLog.h"
+
 using namespace messages_system;
 
 ProtonConsumer::ProtonConsumer(const ConsumerOptions& options):
@@ -37,14 +39,14 @@ void ProtonConsumer::restart()
         }
         catch (const proton::error& e)
         {
-            std::cout << "Error " << e.what() << std::endl;
+            ERROR_LOG("Error %1%", e.what());
         }
     });
 }
 
 void ProtonConsumer::on_sender_open(proton::sender &sender)
 {
-    std::cout << "ProtonConsumer::on_sender_open " << std::endl;
+    DEBUG_LOG("ProtonConsumer::on_sender_open");
     if (sender.source().dynamic())
     {
         std::string addr = "sound";
@@ -56,12 +58,12 @@ void ProtonConsumer::on_sender_open(proton::sender &sender)
 void ProtonConsumer::on_message(proton::delivery& delivery, proton::message& m)
 {
     std::string reply_to = m.reply_to();
-    std::cout << "ProtonConsumer::on_message [" << _name << "] " << m.body() << " reply_to" << reply_to << std::endl;
+    INFO_LOG("ProtonConsumer::on_message [%1%] %2% reply_to %3%", _name, m.body(), reply_to);
 }
 
 void ProtonConsumer::on_container_start(proton::container& c)
 {
-    std::cout << "ProtonConsumer::on_container_start to " << _url << std::endl;
+    INFO_LOG("ProtonConsumer::on_container_start to %1%", _url);
     
     if (_direct)
     {

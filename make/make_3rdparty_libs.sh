@@ -44,27 +44,32 @@ echo "Script executed from: ${CURRENT_DIR}"
 
 # # logging-log4cxx
 # #------------------
-# brew install apr
-# brew install apr-util
+brew install apr
+brew install apr-util
 
-# cd ${ROOT_DIR}/engine/3rdparty/logging-log4cxx
-
-# mkdir build 
-# cd build
-
-# # -DBUILD_SHARED_LIBS=0
-# cmake ..  -DCMAKE_INSTALL_PREFIX=${ROOT_DIR}/dependence/logging-log4cxx
-# cmake --build . --target install
-
-# log4cpp
-#------------------
-
-cd ${ROOT_DIR}/engine/3rdparty/log4cpp
-./configure
+cd ${ROOT_DIR}/engine/3rdparty/logging-log4cxx
 
 mkdir build 
 cd build
 
 # -DBUILD_SHARED_LIBS=0
-cmake ..  -DCMAKE_INSTALL_PREFIX=${ROOT_DIR}/dependence/log4cpp
+cmake ..  -DBUILD_SHARED_LIBS=0 -DCMAKE_INSTALL_PREFIX=${ROOT_DIR}/dependence/logging-log4cxx
 cmake --build . --target install
+
+# log4cpp
+#------------------
+
+# cd ${ROOT_DIR}/engine/3rdparty/log4cpp
+# make clean
+# ./configure --prefix= --enable-threads=yes --enable-shared=no --enable_debug=yes
+
+# make
+# make check
+# make DESTDIR=${ROOT_DIR}/dependence/log4cpp install
+
+# mkdir build 
+# cd build
+
+# -DBUILD_SHARED_LIBS=0
+# cmake ..  -DCMAKE_INSTALL_PREFIX=${ROOT_DIR}/dependence/log4cpp
+# cmake --build . --target install

@@ -8,6 +8,8 @@
 
 #include <iostream>
 
+#include "MsgSysLog.h"
+
 using namespace messages_system;
 
 void ProtonExchangeSender::boundQueue(const ProtonExchangeQueueWPtr& q, const std::string& qn)
@@ -23,7 +25,7 @@ void ProtonExchangeSender::boundQueue(const ProtonExchangeQueueWPtr& q, const st
 //    if (pending_credit_>0) {
 //        queue_->add(make_work(&Queue::flow, queue_, this, pending_credit_));
 //    }
-//    std::cout << "sending from " << queue_name_ << std::endl;
+    INFO_LOG("ProtonExchangeSender:: sending");
 }
 
 void ProtonExchangeSender::sendMsg(const proton::message& m)
@@ -47,5 +49,5 @@ void ProtonExchangeSender::on_sendable(proton::sender &sender)
 
 void ProtonExchangeSender::on_sender_close(proton::sender &sender)
 {
-    std::cout << "ProtonExchangeSender::on_sender_close " << std::endl;
+    INFO_LOG("ProtonExchangeSender::on_sender_close ");
 }

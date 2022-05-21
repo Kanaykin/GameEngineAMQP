@@ -13,6 +13,8 @@
 #include "ProtonExchangeReceiver.h"
 #include "ProtonExchangeQueueManager.h"
 
+#include "MsgSysLog.h"
+
 using namespace messages_system;
 
 ProtonExchangeConnHandler::ProtonExchangeConnHandler(const ProtonExchangeQueueManagerWPtr& queues):
@@ -23,7 +25,7 @@ _queues(queues)
 
 void ProtonExchangeConnHandler::on_sender_open(proton::sender &sender)
 {
-    std::cout << "ProtonExchangeConnHandler::on_sender_open " << std::endl;
+    INFO_LOG("ProtonExchangeConnHandler::on_sender_open ");
     std::string qn = sender.source().dynamic() ? "" : sender.source().address();
     auto s = std::make_shared<ProtonExchangeSender>(sender);//, senders_);
     _senders[sender] = s;
@@ -33,7 +35,7 @@ void ProtonExchangeConnHandler::on_sender_open(proton::sender &sender)
 
 void ProtonExchangeConnHandler::on_connection_open(proton::connection& c)
 {
-    std::cout << "ProtonExchangeConnHandler::on_connection_open " << std::endl;
+    INFO_LOG("ProtonExchangeConnHandler::on_connection_open ");
     c.open();            // Accept the connection
 }
 
@@ -41,7 +43,7 @@ void ProtonExchangeConnHandler::on_connection_open(proton::connection& c)
 // A receiver receives messages from a publisher to a queue.
 void ProtonExchangeConnHandler::on_receiver_open(proton::receiver &receiver)
 {
-    std::cout << "ProtonExchangeConnHandler::on_receiver_open " << std::endl;
+    INFO_LOG("ProtonExchangeConnHandler::on_receiver_open ");
 
     const std::string qname = receiver.target().address();
     auto r = std::make_shared<ProtonExchangeReceiver>(receiver);//, senders_);
@@ -57,7 +59,7 @@ void ProtonExchangeConnHandler::on_receiver_open(proton::receiver &receiver)
 
 void ProtonExchangeConnHandler::on_session_close(proton::session &session)
 {
-    std::cout << "ProtonExchangeConnHandler::on_session_close " << std::endl;
+    INFO_LOG("ProtonExchangeConnHandler::on_session_close ");
     // Unsubscribe all senders that belong to session.
 //        for (proton::sender_iterator i = session.senders().begin(); i != session.senders().end(); ++i) {
 //            senders::iterator j = senders_.find(*i);
@@ -72,18 +74,18 @@ void ProtonExchangeConnHandler::on_session_close(proton::session &session)
 
 void ProtonExchangeConnHandler::on_error(const proton::error_condition& e)
 {
-    std::cout << "protocol error: " << e.what() << std::endl;
+    ERROR_LOG(" ProtonExchangeConnHandler protocol error: %1%", e.what());
 }
 
 void ProtonExchangeConnHandler::on_message(proton::delivery&, proton::message&)
 {
-    std::cout << "ProtonExchangeConnHandler::on_message " << std::endl;
+    INFO_LOG("ProtonExchangeConnHandler::on_message ");
 }
 
 // The container calls on_transport_close() last.
 void ProtonExchangeConnHandler::on_transport_close(proton::transport& t)
 {
-    std::cout << "ProtonExchangeConnHandler::on_transport_close " << std::endl;
+    INFO_LOG("ProtonExchangeConnHandler::on_transport_close ");
 //        // Unsubscribe all senders.
 //        for (proton::sender_iterator i = t.connection().senders().begin(); i != t.connection().senders().end(); ++i) {
 //            senders::iterator j = senders_.find(*i);

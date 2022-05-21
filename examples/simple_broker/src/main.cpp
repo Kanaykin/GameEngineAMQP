@@ -5,6 +5,7 @@
 #include <thread>
 #include <future>
 #include <chrono>
+#include "Log.h"
 
 static const std::chrono::duration<double> LIVE_TIME(2.0);
 

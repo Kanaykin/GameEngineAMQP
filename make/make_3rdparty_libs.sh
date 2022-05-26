@@ -67,9 +67,15 @@ make
 make check
 make DESTDIR=${ROOT_DIR}/dependence/log4cpp install
 
-# mkdir build 
-# cd build
-
-# -DBUILD_SHARED_LIBS=0
-# cmake ..  -DCMAKE_INSTALL_PREFIX=${ROOT_DIR}/dependence/log4cpp
-# cmake --build . --target install
+# boost
+#------------------
+if [[ -z "$BOOST_DIR" ]]; then
+  echo "Not found BOOST_DIR variable. You need set it to ~/.bash_profile"
+  exit 0
+else
+  echo "BOOST_DIR has the value: $BOOST_DIR"
+  cd "$BOOST_DIR"
+  ./bootstrap.sh
+  ./b2 install --libdir="${ROOT_DIR}/dependence/boost/lib" --includedir="${ROOT_DIR}/dependence/boost/include"
+  cd ${CURRENT_DIR}
+fi

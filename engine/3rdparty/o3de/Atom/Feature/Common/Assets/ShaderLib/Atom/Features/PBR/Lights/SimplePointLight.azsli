@@ -1,0 +1,51 @@
+/*
+ * Copyright (c) Contributors to the Open 3D Engine Project.
+ * For complete copyright and license terms please see the LICENSE at the root of this distribution.
+ *
+ * SPDX-License-Identifier: Apache-2.0 OR MIT
+ *
+ */
+
+#pragma once
+
+#include <Atom/Features/LightCulling/LightCullingTileIterator.azsli>
+
+void ApplySimplePointLight(ViewSrg::SimplePointLight light, Surface surface, inout LightingData lightingData)
+{
+    float3 posToLight = light.m_position - surface.position;
+    float d2 = dot(posToLight, posToLight); // light distance squared
+    float falloff = d2 * light.m_invAttenuationRadiusSquared;
+    
+    // Only calculate shading if light is in range
+    if (falloff < 1.0f)
+    {
+        // Smoothly adjusts the light intensity so it reaches 0 at light.m_attenuationRadius distance
+        float radiusAttenuation = 1.0 - (falloff * falloff);
+        radiusAttenuation = radiusAttenuation * radiusAttenuation;
+        
+        // Standard quadratic falloff
+        d2 = max(0.001 * 0.001, d2); // clamp the light to at least 1mm away to avoid extreme values.
+        float3 lightIntensity = (light.m_rgbIntensityCandelas / d2) * radiusAttenuation;
+        float3 posToLightDir = normalize(posToLight);
+
+        // Diffuse contribution
+        lightingData.diffuseLighting += GetDiffuseLighting(surface, lightingData, lightIntensity, posToLightDir);
+
+        // Specular contribution
+        lightingData.specularLighting += GetSpecularLighting(surface, lightingData, lightIntensity, posToLightDir);
+    }
+}
+
+void ApplySimplePointLights(Surface surface, inout LightingData lightingData)
+{
+    lightingData.tileIterator.LoadAdvance();
+                
+    while( !lightingData.tileIterator.IsDone() ) 
+    { 
+        uint currLightIndex = lightingData.tileIterator.GetValue(); 
+        lightingData.tileIterator.LoadAdvance();
+    
+        ViewSrg::SimplePointLight light = ViewSrg::m_simplePointLights[currLightIndex];
+        ApplySimplePointLight(light, surface, lightingData);
+    }
+}

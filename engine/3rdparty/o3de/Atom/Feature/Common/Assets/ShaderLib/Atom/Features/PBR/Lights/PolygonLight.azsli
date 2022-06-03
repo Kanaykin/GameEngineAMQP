@@ -1,0 +1,79 @@
+/*
+ * Copyright (c) Contributors to the Open 3D Engine Project.
+ * For complete copyright and license terms please see the LICENSE at the root of this distribution.
+ *
+ * SPDX-License-Identifier: Apache-2.0 OR MIT
+ *
+ */
+
+#pragma once
+
+#include <Atom/Features/PBR/Lights/LightTypesCommon.azsli>
+#include <Atom/Features/PBR/Lights/Ltc.azsli>
+#include <Atom/RPI/Math.azsli>
+
+// Polygon lights using Linearly Transformed Cosines
+void ApplyPoylgonLight(ViewSrg::PolygonLight light, Surface surface, inout LightingData lightingData)
+{
+    float3 posToLight = light.m_position - surface.position;
+    float distanceToLight2 = dot(posToLight, posToLight); // light distance squared
+    float falloff = distanceToLight2 * abs(light.m_invAttenuationRadiusSquared);
+    
+    if (falloff > 1.0f)
+    {
+        return; // light out of range
+    }
+
+    bool doubleSided = light.m_invAttenuationRadiusSquared < 0.0;
+    uint startIndex = ViewSrg::PolygonLightGetStartIndex(light.m_startEndIndex);
+    uint endIndex = ViewSrg::PolygonLightGetEndIndex(light.m_startEndIndex);
+
+    if (!doubleSided)
+    {
+        // Determine the direction of the polygon light by crossing the first two edges
+        float3 edge1 = ViewSrg::m_polygonLightPoints[startIndex].xyz - ViewSrg::m_polygonLightPoints[startIndex + 1].xyz;
+        float3 edge2 = ViewSrg::m_polygonLightPoints[startIndex + 2].xyz - ViewSrg::m_polygonLightPoints[startIndex + 1].xyz;
+        float3 lightDirection = normalize(cross(edge2, edge1));
+
+        // The sign bit on light.m_rgbIntensityNits.x stores if first two edges are concave or convex. Flip lightDirection based on this bit.
+        lightDirection = asfloat(asuint(lightDirection) ^ asuint(light.m_rgbIntensityNits.x) & 0x80000000); 
+
+        float posToLightDotLightDirection = dot(posToLight, -lightDirection);
+        if (posToLightDotLightDirection <= 0.0)
+        {
+            return; // Light isn't facing the surface
+        }
+    }
+
+    // Above test passed, so evaluate the polygon light.
+
+    // Smoothly adjusts the light intensity so it reaches 0 at the attenuation radius
+    float radiusAttenuation = 1.0 - (falloff * falloff);
+    radiusAttenuation = radiusAttenuation * radiusAttenuation;
+
+    float diffuse = 0.0;
+    float3 specularRgb = 0.0;
+
+    LtcPolygonEvaluate(surface, lightingData, SceneSrg::m_ltcMatrix, SceneSrg::m_ltcAmplification, ViewSrg::m_polygonLightPoints, startIndex, endIndex, diffuse, specularRgb);
+
+    diffuse = doubleSided ? abs(diffuse) : max(0.0, diffuse);
+    specularRgb = doubleSided ? abs(specularRgb) : max(0.0, specularRgb);
+
+    // Scale by inverse surface area of hemisphere (1/2pi), attenuation, and light intensity
+    float3 intensity = 0.5 * INV_PI * radiusAttenuation * abs(light.m_rgbIntensityNits);
+
+    lightingData.diffuseLighting += surface.albedo * diffuse * intensity;
+    lightingData.specularLighting += specularRgb * intensity;
+}
+
+void ApplyPolygonLights(Surface surface, inout LightingData lightingData)
+{
+#if ENABLE_POLYGON_LTC_LIGHTS
+    for (uint currLightIndex = 0; currLightIndex <  ViewSrg::m_polygonLightCount; ++currLightIndex)
+    {
+        ViewSrg::PolygonLight light = ViewSrg::m_polygonLights[currLightIndex];
+        
+        ApplyPoylgonLight(light, surface, lightingData);
+    }
+#endif
+}

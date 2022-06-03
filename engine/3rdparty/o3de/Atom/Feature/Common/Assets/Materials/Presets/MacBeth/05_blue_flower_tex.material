@@ -1,0 +1,18 @@
+{
+    "description": "",
+    "parentMaterial": "05_blue_flower.material",
+    "materialType": "../../Types/StandardPBR.materialtype",
+    "materialTypeVersion": 5,
+    "properties": {
+        "baseColor": {
+            "color": [
+                1.0,
+                1.0,
+                1.0,
+                1.0
+            ],
+            "textureBlendMode": "Lerp",
+            "textureMap": "05_blue_flower_sRGB.tif"
+        }
+    }
+}

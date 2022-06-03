@@ -1,0 +1,19 @@
+{
+    "description": "",
+    "parentMaterial": "10_purple.material",
+    "materialType": "../../Types/StandardPBR.materialtype",
+    "materialTypeVersion": 5,
+    "properties": {
+        "baseColor": {
+            "color": [
+                1.0,
+                1.0,
+                1.0,
+                1.0
+            ],
+            "textureBlendMode": "Lerp",
+            "textureMap": "10_purple_sRGB.tif",
+            "useTexture": true
+        }
+    }
+}

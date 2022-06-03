@@ -1,0 +1,121 @@
+{
+    "description": "Material Type with properties used to define Standard PBR, a metallic-roughness Physically-Based Rendering (PBR) material shading model.",
+    "version": 5,
+    "versionUpdates": [
+        {
+            "toVersion": 4,
+            "actions": [
+                {"op": "rename", "from": "opacity.doubleSided", "to": "general.doubleSided"}
+            ]
+        },
+        {
+            "toVersion": 5,
+            "actions": [
+                {"op": "rename", "from": "irradiance.color", "to": "irradiance.manualColor"},
+                {"op": "setValue", "name": "irradiance.irradianceColorSource", "value": "Manual"}
+            ]
+        }
+    ],
+    "propertyLayout": {
+        "propertyGroups": [
+            { 
+                "$import": "MaterialInputs/BaseColorPropertyGroup.json"
+            },
+            { 
+                "$import": "MaterialInputs/MetallicPropertyGroup.json"
+            },
+            { 
+                "$import": "MaterialInputs/RoughnessPropertyGroup.json"
+            },
+            { 
+                "$import": "MaterialInputs/SpecularPropertyGroup.json"
+            },
+            { 
+                "$import": "MaterialInputs/NormalPropertyGroup.json"
+            },
+            { 
+                "$import": "MaterialInputs/OcclusionPropertyGroup.json"
+            },
+            { 
+                "$import": "MaterialInputs/EmissivePropertyGroup.json"
+            },
+            { 
+                "$import": "MaterialInputs/ClearCoatPropertyGroup.json"
+            },
+            { 
+                "$import": "MaterialInputs/ParallaxPropertyGroup.json"
+            },
+            { 
+                "$import": "MaterialInputs/OpacityPropertyGroup.json"
+            },
+            { 
+                "$import": "MaterialInputs/UvPropertyGroup.json"
+            },
+            { 
+                "$import": "MaterialInputs/IrradiancePropertyGroup.json"
+            },
+            { 
+                "$import": "MaterialInputs/GeneralCommonPropertyGroup.json"
+            }
+        ]
+    },
+    "shaders": [
+        {
+            "file": "./StandardPBR_ForwardPass.shader",
+            "tag": "ForwardPass"
+        },
+        {
+            "file": "./StandardPBR_ForwardPass_EDS.shader",
+            "tag": "ForwardPass_EDS"
+        },
+        {
+            "file": "./StandardPBR_LowEndForward.shader",
+            "tag": "LowEndForward"
+        },
+        {
+            "file": "./StandardPBR_LowEndForward_EDS.shader",
+            "tag": "LowEndForward_EDS"
+        },
+        {
+            "file": "Shaders/Shadow/Shadowmap.shader",
+            "tag": "Shadowmap"
+        },
+        {
+            "file": "./StandardPBR_Shadowmap_WithPS.shader",
+            "tag": "Shadowmap_WithPS"
+        },
+        {
+            "file": "Shaders/Depth/DepthPass.shader",
+            "tag": "DepthPass"
+        },
+        {
+            "file": "./StandardPBR_DepthPass_WithPS.shader",
+            "tag": "DepthPass_WithPS"
+        },
+        {
+            "file": "Shaders/MotionVector/MeshMotionVector.shader",
+            "tag": "MeshMotionVector"
+        },
+        // Used by the light culling system to produce accurate depth bounds for this object when it uses blended transparency
+        {
+            "file": "Shaders/Depth/DepthPassTransparentMin.shader",
+            "tag": "DepthPassTransparentMin"
+        },
+        {
+            "file": "Shaders/Depth/DepthPassTransparentMax.shader",
+            "tag": "DepthPassTransparentMax"
+        }        
+    ],
+    "functors": [
+        {
+            "type": "Lua",
+            "args": {
+                "file": "Materials/Types/StandardPBR_ShaderEnable.lua"
+            }
+        }
+    ],
+    "uvNameMap": {
+        "UV0": "Tiled",
+        "UV1": "Unwrapped"
+    }
+}

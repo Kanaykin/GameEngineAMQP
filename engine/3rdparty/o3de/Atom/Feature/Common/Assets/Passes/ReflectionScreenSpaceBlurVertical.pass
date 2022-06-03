@@ -1,0 +1,49 @@
+{
+    "Type": "JsonSerialization",
+    "Version": 1,
+    "ClassName": "PassAsset",
+    "ClassData": {
+        "PassTemplate": {
+            "Name": "ReflectionScreenSpaceBlurVerticalPassTemplate",
+            "PassClass": "ReflectionScreenSpaceBlurChildPass",
+            "Slots": [
+                {
+                    "Name": "DepthInput",
+                    "SlotType": "Input",
+                    "ScopeAttachmentUsage": "Shader"
+                },
+                {
+                    "Name": "Input",
+                    "SlotType": "InputOutput",
+                    "ScopeAttachmentUsage": "Shader"
+                },
+                {
+                    "Name": "Output",
+                    "SlotType": "InputOutput",
+                    "ScopeAttachmentUsage": "RenderTarget"
+                },
+                {
+                    "Name": "DownsampledDepthOutput",
+                    "SlotType": "InputOutput",
+                    "ScopeAttachmentUsage": "DepthStencil"
+                }
+            ],
+            "Connections": [
+                {
+                    "LocalSlot": "DepthInput",
+                    "AttachmentRef": {
+                        "Pass": "Parent",
+                        "Attachment": "DepthInput"
+                    }
+                }
+            ],
+            "PassData": {
+                "$type": "FullscreenTrianglePassData",
+                "ShaderAsset": {
+                    "FilePath": "Shaders/Reflections/ReflectionScreenSpaceBlurVertical.shader"
+                },
+                "PipelineViewTag": "MainCamera"
+            }
+        }
+    }
+}

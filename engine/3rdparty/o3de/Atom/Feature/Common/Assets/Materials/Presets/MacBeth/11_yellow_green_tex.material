@@ -1,0 +1,19 @@
+{
+    "description": "",
+    "parentMaterial": "11_yellow_green.material",
+    "materialType": "../../Types/StandardPBR.materialtype",
+    "materialTypeVersion": 5,
+    "properties": {
+        "baseColor": {
+            "color": [
+                1.0,
+                1.0,
+                1.0,
+                1.0
+            ],
+            "textureBlendMode": "Lerp",
+            "textureMap": "11_yellow_green_sRGB.tif",
+            "useTexture": true
+        }
+    }
+}

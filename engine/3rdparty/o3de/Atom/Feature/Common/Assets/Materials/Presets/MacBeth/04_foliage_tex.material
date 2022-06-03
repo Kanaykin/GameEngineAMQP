@@ -1,0 +1,18 @@
+{
+    "description": "",
+    "parentMaterial": "04_foliage.material",
+    "materialType": "../../Types/StandardPBR.materialtype",
+    "materialTypeVersion": 5,
+    "properties": {
+        "baseColor": {
+            "color": [
+                1.0,
+                1.0,
+                1.0,
+                1.0
+            ],
+            "textureBlendMode": "Lerp",
+            "textureMap": "04_foliage_sRGB.tif"
+        }
+    }
+}

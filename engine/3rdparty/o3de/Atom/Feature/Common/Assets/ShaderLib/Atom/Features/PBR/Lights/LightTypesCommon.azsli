@@ -1,0 +1,61 @@
+/*
+ * Copyright (c) Contributors to the Open 3D Engine Project.
+ * For complete copyright and license terms please see the LICENSE at the root of this distribution.
+ *
+ * SPDX-License-Identifier: Apache-2.0 OR MIT
+ *
+ */
+
+#pragma once
+
+#include <Atom/Features/LightCulling/LightCullingTileIterator.azsli>
+
+#include <Atom/Features/PBR/BackLighting.azsli>
+#include <Atom/Features/PBR/Hammersley.azsli>
+
+//! Adjust the intensity of specular light based on the radius of the light source and roughness of the surface to approximate energy conservation.
+float GetIntensityAdjustedByRadiusAndRoughness(float roughnessA, float radius, float distance2)
+{
+    float roughnessAdjusted = saturate(roughnessA + (radius / (3.0 * sqrt(distance2))));
+    float intensityNormalization = max(roughnessA, 0.001f) / roughnessAdjusted;
+    return intensityNormalization * intensityNormalization;
+}
+
+//! Adds diffuse and specular contribution for a single sample of a lambertian emitter
+void AddSampleContribution(
+    in Surface surface,
+    in LightingData lightingData,
+    in float3 lightSamplePoint,
+    in float3 lightSampleDirection,
+    in float bothDirectionsFactor,
+    inout float3 diffuseAcc,
+    inout float3 specularAcc,
+    inout float3 translucentAcc)
+{
+    float3 posToLightSample = lightSamplePoint - surface.position;
+    float distanceToLight2 = dot(posToLightSample, posToLightSample);
+    float3 posToLightSampleDir = normalize(posToLightSample);
+
+    // Lambertian emitter
+    float intensity = dot(-lightSampleDirection, posToLightSampleDir);
+    // Handle if the light emits from both sides
+    intensity = abs(clamp(intensity, bothDirectionsFactor, 1.0));
+    // Attenuate with distance
+    intensity /= distanceToLight2;
+
+    float3 intensityRgb = float3(intensity, intensity, intensity);
+
+    diffuseAcc += GetDiffuseLighting(surface, lightingData, intensityRgb, posToLightSampleDir);
+
+    // Transmission contribution
+    // We cannot compute the actual transmission distance so we want to:
+    // - If transmission mode is thick object -> use transmission thickness parameter instead
+    // - If transmission mode is thin object -> ignore back lighting
+    // To detect and apply this behavior in the GetBackLighting function, we need to use a negative transmissionDistance 
+    const float transmissionDistance = -1.0f;
+    // If the transmissionDistance is ignored then the attenuation distance (only used on thin objects) does not have any influence
+    const float attenuationDistance = 0.0f;
+    translucentAcc += GetBackLighting(surface, lightingData, intensityRgb, posToLightSampleDir, transmissionDistance, attenuationDistance);
+
+    specularAcc += GetSpecularLighting(surface, lightingData, intensityRgb, posToLightSampleDir);
+}

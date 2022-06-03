@@ -1,0 +1,12 @@
+{
+    "description": "",
+    "parentMaterial": "00_illuminant.material",
+    "materialType": "../../Types/StandardPBR.materialtype",
+    "materialTypeVersion": 5,
+    "properties": {
+        "baseColor": {
+            "textureBlendMode": "Lerp",
+            "textureMap": "00_illuminant_sRGB.tif"
+        }
+    }
+}

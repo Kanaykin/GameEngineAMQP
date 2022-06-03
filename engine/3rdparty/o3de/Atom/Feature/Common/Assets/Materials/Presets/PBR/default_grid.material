@@ -1,0 +1,17 @@
+{
+    "description": "",
+    "materialType": "Materials\\Types\\StandardPBR.materialtype",
+    "parentMaterial": "",
+    "materialTypeVersion": 5,
+    "properties": {
+        "baseColor": {
+            "textureMap": "Textures/Default/default_basecolor.tif"
+        },
+        "normal": {
+            "textureMap": "Textures/Default/default_normal.tif"
+        },
+        "roughness": {
+            "textureMap": "Textures/Default/default_roughness.tif"
+        }
+    }
+}

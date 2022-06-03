@@ -1,0 +1,19 @@
+{
+    "description": "",
+    "parentMaterial": "15_red.material",
+    "materialType": "../../Types/StandardPBR.materialtype",
+    "materialTypeVersion": 5,
+    "properties": {
+        "baseColor": {
+            "color": [
+                1.0,
+                1.0,
+                1.0,
+                1.0
+            ],
+            "textureBlendMode": "Lerp",
+            "textureMap": "15_red_sRGB.tif",
+            "useTexture": true
+        }
+    }
+}

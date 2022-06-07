@@ -1,23 +1,23 @@
-#
-# Copyright (c) Contributors to the Open 3D Engine Project.
-# For complete copyright and license terms please see the LICENSE at the root of this distribution.
-#
-# SPDX-License-Identifier: Apache-2.0 OR MIT
-#
-#
+cmake_minimum_required(VERSION 3.10)
 
-set(gem_path ${CMAKE_CURRENT_LIST_DIR})
-set(gem_json ${gem_path}/gem.json)
-o3de_restricted_path(${gem_json} gem_restricted_path gem_parent_relative_path)
+# set the project name
+set(PROJECT_NAME o3deAtom)
+project(${PROJECT_NAME})
 
-add_subdirectory(Tools)
-add_subdirectory(Utils)
+set(PROJECT_SOURCE_DIR RHI/Code/Source)
 
-# The "Atom" Gem will alias the real Atom_AtomBridge target variants
-# allows the enabling and disabling the "Atom" Gem to build the pre-requisite dependencies
-ly_create_alias(NAME Atom.Clients NAMESPACE Gem TARGETS Gem::Atom_AtomBridge.Clients)
-ly_create_alias(NAME Atom.Servers NAMESPACE Gem TARGETS Gem::Atom_AtomBridge.Servers)
-if(PAL_TRAIT_BUILD_HOST_TOOLS)
-    ly_create_alias(NAME Atom.Builders NAMESPACE Gem TARGETS Gem::Atom_AtomBridge.Builders)
-    ly_create_alias(NAME Atom.Tools    NAMESPACE Gem TARGETS Gem::Atom_AtomBridge.Tools)
-endif()
+set(INCLUDE_DIR RHI/Code/Include)
+
+include_directories(${INCLUDE_DIR})
+
+file(GLOB_RECURSE SRC
+     ${PROJECT_SOURCE_DIR}/*.h
+     ${PROJECT_SOURCE_DIR}/*.cpp
+)
+
+#message(STATUS "ATOM !!!! src ${SRC}")
+
+group_files()
+
+add_library(${PROJECT_NAME} STATIC ${SRC})
+target_link_libraries(${PROJECT_NAME} ${LIBRARIES})

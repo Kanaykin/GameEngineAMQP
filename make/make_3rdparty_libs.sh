@@ -79,3 +79,12 @@ else
   ./b2 install --libdir="${ROOT_DIR}/dependence/boost/lib" --includedir="${ROOT_DIR}/dependence/boost/include"
   cd ${CURRENT_DIR}
 fi
+
+# zstd
+#------------------
+cd ${ROOT_DIR}/engine/3rdparty/zstd-1.5.2
+make clean
+# ./configure --prefix=
+
+make prefix=
+make prefix= DESTDIR=${ROOT_DIR}/dependence/zstd install

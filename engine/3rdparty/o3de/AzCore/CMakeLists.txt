@@ -25,6 +25,7 @@ file(GLOB_RECURSE SRC
 group_files()
 
 include(zstd)
+include(rapidjson)
 
 add_library(${PROJECT_NAME} STATIC ${SRC})
 target_link_libraries(${PROJECT_NAME} ${LIBRARIES})

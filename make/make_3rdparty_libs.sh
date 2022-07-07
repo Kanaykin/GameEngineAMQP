@@ -16,7 +16,10 @@ cd ../engine/3rdparty/rabbitmq-c
 mkdir build 
 cd build
 
-cmake -DCMAKE_INSTALL_PREFIX=${ROOT_DIR}/dependence/rabbitmq-c ..
+brew install openssl
+brew link --force openssl
+
+cmake -DCMAKE_INSTALL_PREFIX=${ROOT_DIR}/dependence/rabbitmq-c -DOPENSSL_ROOT_DIR=/usr/bin/openssl ..
 cmake --build . --target install
 
 # amqpcpp
@@ -39,6 +42,8 @@ cd ${ROOT_DIR}/engine/3rdparty/qpid-proton
 mkdir build 
 cd build
 
+brew install libuv
+
 cmake .. -DBUILD_EXAMPLES=0 -DBUILD_STATIC_LIBS=1 -DPROACTOR=libuv -DCMAKE_INSTALL_PREFIX=${ROOT_DIR}/dependence/qpid-proton
 cmake --build . --target install
 
@@ -60,8 +65,8 @@ cmake --build . --target install
 #------------------
 
 cd ${ROOT_DIR}/engine/3rdparty/log4cpp
-make clean
-./configure --prefix= --enable-threads=yes --enable-shared=no --enable_debug=yes
+# make clean --enable_debug=yes
+./configure --prefix= --enable-threads=yes --enable-shared=no 
 
 make
 make check

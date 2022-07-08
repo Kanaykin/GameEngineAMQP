@@ -90,6 +90,8 @@ template <typename T1, typename T2>
 class ValueArray2 {
  public:
   ValueArray2(T1 v1, T2 v2) : v1_(v1), v2_(v2) {}
+  ValueArray2() = default;
+  ValueArray2(const ValueArray2&) = default;
 
   template <typename T>
   operator ParamGenerator<T>() const {

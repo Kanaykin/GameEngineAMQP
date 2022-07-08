@@ -432,7 +432,7 @@ namespace AZ
             if (ed.m_serializeClassElement)
             {
                 const Crc32 typeCrc = UuidToCrc32(ed.m_serializeClassElement->m_typeId);
-                if (ed.m_elementId == typeCrc)
+                if (ed.m_elementId == (AZ::u32)typeCrc)
                 {
                     return idCrc == AZ::Edit::InternalAttributes::EnumValue || idCrc == AZ::Edit::Attributes::EnumValues;
                 }
@@ -814,7 +814,7 @@ namespace AZ
 
         static_assert(AZStd::is_enum<T>::value, "Type passed to EnumAttribute is not an enum.");
         // If the name of the element is the same as the class name, then this is the global reflection (see EditContext::Enum<E>())
-        const bool isReflectedGlobally = m_editElement->m_serializeClassElement && m_editElement->m_elementId == AZ::Internal::UuidToCrc32(m_editElement->m_serializeClassElement->m_typeId);
+        const bool isReflectedGlobally = m_editElement->m_serializeClassElement && m_editElement->m_elementId == (AZ::u32)(AZ::Internal::UuidToCrc32(m_editElement->m_serializeClassElement->m_typeId));
         AZ_Error("EditContext", !isReflectedGlobally, "You cannot add enum values to an enum which is globally reflected (while reflecting %s %s)", AzTypeInfo<T>::Name(), m_editElement->m_name);
         if (!isReflectedGlobally)
         {
@@ -923,7 +923,7 @@ namespace AZ
         if (m_elementData)
         {
             m_elementData->m_attributes.push_back(Edit::AttributePair(AZ::Edit::InternalAttributes::EnumValue, aznew ContainerType(internalValue)));
-            if (m_elementData->m_elementId == AZ::Edit::UIHandlers::Default)
+            if (m_elementData->m_elementId == (AZ::u32)AZ::Edit::UIHandlers::Default)
             {
                 m_elementData->m_elementId = AZ::Edit::UIHandlers::ComboBox;
             }

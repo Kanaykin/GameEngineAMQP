@@ -120,5 +120,7 @@ cd ${ROOT_DIR}/engine/3rdparty/rapidxml-1.13
 
 mkdir ${ROOT_DIR}/dependence/rapidxml
 mkdir ${ROOT_DIR}/dependence/rapidxml/include
-cp * ${ROOT_DIR}/dependence/rapidxml/include
+mkdir ${ROOT_DIR}/dependence/rapidxml/include/rapidxml
+
+cp * ${ROOT_DIR}/dependence/rapidxml/include/rapidxml
 

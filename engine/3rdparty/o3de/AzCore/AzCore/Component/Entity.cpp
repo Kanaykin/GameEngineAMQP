@@ -691,7 +691,7 @@ namespace AZ
             for (int i = 0; i < classElement.GetNumSubElements(); ++i)
             {
                 AZ::SerializeContext::DataElementNode& elementNode = classElement.GetSubElement(i);
-                if (elementNode.GetName() == AZ_CRC("Id", 0xbf396750))
+                if (elementNode.GetName() == static_cast<u32>(AZ_CRC("Id", 0xbf396750)))
                 {
                     u64 oldEntityId;
                     if (elementNode.GetData(oldEntityId))
@@ -734,7 +734,7 @@ namespace AZ
             for (int i = 0; i < classElement.GetNumSubElements(); ++i)
             {
                 AZ::SerializeContext::DataElementNode& elementNode = classElement.GetSubElement(i);
-                if (elementNode.GetName() == AZ_CRC("m_refId", 0xb7853eda))
+                if (elementNode.GetName() == static_cast<u32>(AZ_CRC("m_refId", 0xb7853eda)))
                 {
                     u64 oldEntityId;
                     if (elementNode.GetData(oldEntityId))

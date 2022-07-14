@@ -27,6 +27,7 @@ group_files()
 include(zstd)
 include(rapidjson)
 include(rapidxml)
+include(cityhash)
 
 add_library(${PROJECT_NAME} STATIC ${SRC})
 target_link_libraries(${PROJECT_NAME} ${LIBRARIES})

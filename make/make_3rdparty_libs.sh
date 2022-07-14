@@ -124,3 +124,10 @@ mkdir ${ROOT_DIR}/dependence/rapidxml/include/rapidxml
 
 cp * ${ROOT_DIR}/dependence/rapidxml/include/rapidxml
 
+# cityhash
+#------------------
+echo "make cityhash ... "
+cd ${ROOT_DIR}/engine/3rdparty/cityhash
+./configure
+make all check CXXFLAGS="-g -O3" prefix=
+make prefix= DESTDIR=${ROOT_DIR}/dependence/cityhash install

@@ -1,4 +1,6 @@
 build/
 dependence/
 *.pyc
+*.o
+*.a
 .DS_Store

@@ -131,3 +131,15 @@ cd ${ROOT_DIR}/engine/3rdparty/cityhash
 ./configure
 make all check CXXFLAGS="-g -O3" prefix=
 make prefix= DESTDIR=${ROOT_DIR}/dependence/cityhash install
+
+# lua
+#------------------
+echo "make lua ... "
+cd ${ROOT_DIR}/engine/3rdparty/lua-5.4.4
+
+mkdir ${ROOT_DIR}/dependence/lua
+mkdir ${ROOT_DIR}/dependence/lua/include
+mkdir ${ROOT_DIR}/dependence/lua/include/Lua
+
+make all prefix=
+make prefix= INSTALL_TOP=${ROOT_DIR}/dependence/lua INSTALL_INC=${ROOT_DIR}/dependence/lua/include/Lua install

@@ -537,6 +537,7 @@ namespace AZ::SettingsRegistryMergeUtils
             // First try <project-build-path>/bin/$<CONFIG> and if that path doesn't exist
             // try <project-build-path>/bin/$<PLATFORM>/$<CONFIG>
             buildConfigurationPath /= "bin";
+            AZ::IO::FixedMaxPath AZ_BUILD_CONFIGURATION_TYPE= "profile";
             if (IO::SystemFile::Exists((buildConfigurationPath / AZ_BUILD_CONFIGURATION_TYPE).c_str()))
             {
                 settingsRegistry.Set(FilePathKey_ProjectConfigurationBinPath,

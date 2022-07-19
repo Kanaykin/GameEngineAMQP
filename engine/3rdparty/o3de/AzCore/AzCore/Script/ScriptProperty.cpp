@@ -70,7 +70,7 @@ namespace AZ
             for (int i = 0; i < classElement.GetNumSubElements(); ++i)
             {
                 AZ::SerializeContext::DataElementNode& elementNode = classElement.GetSubElement(i);
-                if (elementNode.GetName() == AZ_CRC("name", 0x5e237e06))
+                if (elementNode.GetName() == static_cast<u32>(AZ_CRC("name", 0x5e237e06)))
                 {
                     AZStd::string name;
                     if (elementNode.GetData(name))
@@ -1276,7 +1276,7 @@ namespace AZ
             for (int classIdx = 0; classIdx < classElement.GetNumSubElements(); ++classIdx)
             {
                 AZ::SerializeContext::DataElementNode& elementNode = classElement.GetSubElement(classIdx);
-                if (elementNode.GetName() == AZ_CRC("values", 0x3aa74ce6))
+                if (elementNode.GetName() == static_cast<u32>(AZ_CRC("values", 0x3aa74ce6)))
                 {
                     if (elementNode.GetNumSubElements() > 0)
                     {
@@ -1285,7 +1285,7 @@ namespace AZ
                         for (int dsfIdx = 0; dsfIdx < dsfNode.GetNumSubElements(); ++dsfIdx)
                         {
                             AZ::SerializeContext::DataElementNode& dataNode = dsfNode.GetSubElement(dsfIdx);
-                            if (dataNode.GetName() == AZ_CRC("m_data", 0x335cc942))
+                            if (dataNode.GetName() == static_cast<u32>(AZ_CRC("m_data", 0x335cc942)))
                             {
                                 const int idx = classElement.AddElement<AZ::Uuid>(context, "elementType");
                                 const AZ::Uuid elementType = dataNode.GetId();

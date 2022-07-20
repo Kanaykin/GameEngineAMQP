@@ -2562,7 +2562,7 @@ LUA_API const Node* lua_getDummyNode()
                     {
                         // it's possible that we have a class that wraps an unregistered class
                         LuaUserData* userData = reinterpret_cast<LuaUserData*>(lua_touserdata(lua, stackIndex));
-                        if (userData->magicData == Internal::AZLuaUserData) // make sure this is our user data (4 bytes userdata required)
+                        if (userData->magicData == static_cast<u32>(Internal::AZLuaUserData)) // make sure this is our user data (4 bytes userdata required)
                         {
                             if (userData->behaviorClass->m_unwrapper && value.m_typeId == userData->behaviorClass->m_wrappedTypeId)
                             {
@@ -2857,7 +2857,7 @@ LUA_API const Node* lua_getDummyNode()
                     if (lua_isuserdata(lua, stackIndex))
                     {
                         LuaUserData* userData = reinterpret_cast<LuaUserData*>(lua_touserdata(lua, stackIndex));
-                        if (userData->magicData == Internal::AZLuaUserData) // make sure this is our user data (4 bytes userdata required)
+                        if (userData->magicData == static_cast<u32>(Internal::AZLuaUserData)) // make sure this is our user data (4 bytes userdata required)
                         {
                             // Handle wrapped base classes
                             bool unwrap = false;
@@ -3134,7 +3134,7 @@ LUA_API const Node* lua_getDummyNode()
                 if (lua_isuserdata(lua, stackIndex) && !lua_islightuserdata(lua, stackIndex))
                 {
                     LuaUserData* userData = reinterpret_cast<LuaUserData*>(lua_touserdata(lua, stackIndex));
-                    if (userData->magicData == Internal::AZLuaUserData)
+                    if (userData->magicData == static_cast<u32>(Internal::AZLuaUserData))
                     {
                         if (typeId)
                         {
@@ -3154,7 +3154,7 @@ LUA_API const Node* lua_getDummyNode()
                 if (lua_isuserdata(lua, stackIndex) && !lua_islightuserdata(lua, stackIndex))
                 {
                     LuaUserData* userData = reinterpret_cast<LuaUserData*>(lua_touserdata(lua, stackIndex));
-                    if (userData->magicData == Internal::AZLuaUserData)
+                    if (userData->magicData == static_cast<u32>(Internal::AZLuaUserData))
                     {
                         if (valueAddress)
                         {
@@ -3177,7 +3177,7 @@ LUA_API const Node* lua_getDummyNode()
                 if (lua_isuserdata(lua, stackIndex) && !lua_islightuserdata(lua, stackIndex))
                 {
                     LuaUserData* userData = reinterpret_cast<LuaUserData*>(lua_touserdata(lua, stackIndex));
-                    if (userData->magicData == Internal::AZLuaUserData)
+                    if (userData->magicData == static_cast<u32>(Internal::AZLuaUserData))
                     {
                         userData->storageType = (int)Script::Attributes::StorageType::RuntimeOwn;
                         if (nullThePointer)
@@ -3195,7 +3195,7 @@ LUA_API const Node* lua_getDummyNode()
                 if (lua_isuserdata(lua, stackIndex) && !lua_islightuserdata(lua, stackIndex))
                 {
                     LuaUserData* userData = reinterpret_cast<LuaUserData*>(lua_touserdata(lua, stackIndex));
-                    if (userData->magicData == Internal::AZLuaUserData)
+                    if (userData->magicData == static_cast<u32>(Internal::AZLuaUserData))
                     {
                         userData->storageType = (int)Script::Attributes::StorageType::ScriptOwn;
                         return true;
@@ -3209,7 +3209,7 @@ LUA_API const Node* lua_getDummyNode()
                 if (lua_isuserdata(lua, stackIndex) && !lua_islightuserdata(lua, stackIndex))
                 {
                     LuaUserData* userData = reinterpret_cast<LuaUserData*>(lua_touserdata(lua, stackIndex));
-                    if (userData->magicData == Internal::AZLuaUserData)
+                    if (userData->magicData == static_cast<u32>(Internal::AZLuaUserData))
                     {
                         if (userData->behaviorClass->m_typeId == typeId
                         || (userData->behaviorClass->m_azRtti && userData->behaviorClass->m_azRtti->IsTypeOf(typeId)))
@@ -3226,7 +3226,7 @@ LUA_API const Node* lua_getDummyNode()
                 if (lua_isuserdata(lua, stackIndex) && !lua_islightuserdata(lua, stackIndex))
                 {
                     LuaUserData* userData = reinterpret_cast<LuaUserData*>(lua_touserdata(lua, stackIndex));
-                    if (userData->magicData == Internal::AZLuaUserData)
+                    if (userData->magicData == static_cast<u32>(Internal::AZLuaUserData))
                     {
                         if (typeId)
                         {

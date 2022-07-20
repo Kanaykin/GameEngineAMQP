@@ -40,7 +40,7 @@ PLATS= guess aix bsd c89 freebsd generic linux linux-readline macosx mingw posix
 
 # What to install.
 TO_BIN= lua luac
-TO_INC= lua.h luaconf.h lualib.h lauxlib.h lua.hpp lobject.h
+TO_INC= lua.h luaconf.h lualib.h lauxlib.h lua.hpp lobject.h llimits.h
 TO_LIB= liblua.a
 TO_MAN= lua.1 luac.1
 

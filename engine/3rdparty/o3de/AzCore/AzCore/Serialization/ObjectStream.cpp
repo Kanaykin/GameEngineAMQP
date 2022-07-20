@@ -596,7 +596,7 @@ namespace AZ
                             }
                         }
                     }
-                    else if (parentClassInfo->m_typeId == SerializeTypeInfo<DynamicSerializableField>::GetUuid() && element.m_nameCrc == AZ_CRC("m_data", 0x335cc942))   // special case for dynamic-typed fields
+                    else if (parentClassInfo->m_typeId == SerializeTypeInfo<DynamicSerializableField>::GetUuid() && element.m_nameCrc == static_cast<u32>(AZ_CRC("m_data", 0x335cc942)))   // special case for dynamic-typed fields
                     {
                         DynamicSerializableField* fieldContainer = reinterpret_cast<DynamicSerializableField*>(parentClassPtr);
                         fieldContainer->m_typeId = classData->m_typeId;
@@ -2057,14 +2057,14 @@ namespace AZ
                         }
                         else
                         {
-                            if (xmlDoc.isError())
+//                            if (xmlDoc.isError())
                             {
                                 AZ_Error("Serialize", false, "XML parse error: %s", xmlDoc.getError());
                                 m_errorLogger.ReportError("ObjectStream XML parse error.");
                             }
-                            else
+//                            else
                             {
-                                m_errorLogger.ReportError("ObjectStream XML is malformed.");
+//                                m_errorLogger.ReportError("ObjectStream XML is malformed.");
                             }
 
                             // this is considered a "fatal" error since the portions of the stream is unreadable and the file may be truncated

@@ -13,7 +13,7 @@
 
 // the intention is that you only include the customized version of rapidXML through this header, so that
 // you can override behavior here.
-#include <rapidxml/rapidxml_print.h>
+#include <rapidxml/rapidxml_print.hpp>
 
 #undef INCLUDING_RAPIDXML_VIA_AZCORE
 

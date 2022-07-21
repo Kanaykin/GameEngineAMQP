@@ -29,6 +29,7 @@ include(rapidjson)
 include(rapidxml)
 include(cityhash)
 include(lua)
+include(googletest)
 
 add_library(${PROJECT_NAME} STATIC ${SRC})
 target_link_libraries(${PROJECT_NAME} ${LIBRARIES})

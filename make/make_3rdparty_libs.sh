@@ -143,3 +143,14 @@ mkdir ${ROOT_DIR}/dependence/lua/include/Lua
 
 make all prefix=
 make prefix= INSTALL_TOP=${ROOT_DIR}/dependence/lua INSTALL_INC=${ROOT_DIR}/dependence/lua/include/Lua install
+
+# googletest
+#------------------
+echo "make googletest ... "
+cd ${ROOT_DIR}/engine/3rdparty/googletest
+
+mkdir build 
+cd build
+
+cmake .. -DCMAKE_INSTALL_PREFIX=${ROOT_DIR}/dependence/googletest
+cmake --build . --target install

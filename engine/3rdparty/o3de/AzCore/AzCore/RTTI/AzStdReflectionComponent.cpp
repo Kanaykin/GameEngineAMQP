@@ -10,7 +10,7 @@
 #include <AzCore/std/any.h>
 #include <AzCore/Casting/numeric_cast.h>
 
-#include <AzCore/Math/VectorFloat.h>
+//#include <AzCore/Math/VectorFloat.h>
 #include <AzCore/RTTI/AttributeReader.h>
 #include <AzCore/RTTI/BehaviorContext.h>
 #include <AzCore/Script/ScriptContextAttributes.h>
@@ -46,7 +46,7 @@ namespace AZ
             else CHECK_BUILTIN(u64)
             else CHECK_BUILTIN(float)
             else CHECK_BUILTIN(double)
-            else CHECK_BUILTIN(VectorFloat)
+//            else CHECK_BUILTIN(VectorFloat)
             else CHECK_BUILTIN(char*)
             else CHECK_BUILTIN(AZStd::string)
             else

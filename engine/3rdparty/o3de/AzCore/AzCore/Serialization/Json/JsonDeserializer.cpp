@@ -400,7 +400,7 @@ namespace AZ
 
         for (const AttributeSharedPair& enumAttributePair : classData.m_attributes)
         {
-            if (enumAttributePair.first != Serialize::Attributes::EnumValueKey)
+            if (enumAttributePair.first != static_cast<u32>(Serialize::Attributes::EnumValueKey))
             {
                 continue;
             }
@@ -499,7 +499,7 @@ namespace AZ
         bool first = true;
         for (const AZ::AttributeSharedPair& enumAttributePair : attributes)
         {
-            if (enumAttributePair.first != AZ::Serialize::Attributes::EnumValueKey)
+            if (enumAttributePair.first != static_cast<u32>(AZ::Serialize::Attributes::EnumValueKey))
             {
                 continue;
             }
@@ -888,7 +888,7 @@ namespace AZ
         // for the case of naming conflicts in the serialized data between base and derived classes
         for (auto elementData = classData.m_elements.crbegin(); elementData != classData.m_elements.crend(); ++elementData)
         {
-            if (elementData->m_nameCrc == nameCrc)
+            if (elementData->m_nameCrc == static_cast<u32>(nameCrc))
             {
                 ElementDataResult result;
                 result.m_data = reinterpret_cast<void*>(reinterpret_cast<char*>(object) + elementData->m_offset);

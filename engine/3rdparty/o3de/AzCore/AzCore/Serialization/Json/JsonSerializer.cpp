@@ -384,7 +384,7 @@ namespace AZ
         AZStd::set<AZStd::reference_wrapper<EnumConstantBase>, EnumUnsignedCompare> enumConstantSet;
         for (const AZ::AttributeSharedPair& enumAttributePair : classData.m_attributes)
         {
-            if (enumAttributePair.first == AZ::Serialize::Attributes::EnumValueKey)
+            if (enumAttributePair.first == static_cast<u32>(AZ::Serialize::Attributes::EnumValueKey))
             {
                 auto enumConstantAttribute = azrtti_cast<AZ::AttributeData<EnumConstantBasePtr>*>(enumAttributePair.second.get());
                 if (!enumConstantAttribute)

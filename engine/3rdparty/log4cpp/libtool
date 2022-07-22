@@ -2,7 +2,7 @@
 
 # libtool - Provide generalized library-building support services.
 # Generated automatically by config.status (log4cpp) 1.1
-# Libtool was configured on host msk-mb-1c07527.local:
+# Libtool was configured on host Sergeys-MacBook-Pro.local:
 # NOTE: Changes made to this file will be lost: look at ltmain.sh.
 #
 #   Copyright (C) 1996, 1997, 1998, 1999, 2000, 2001, 2003, 2004, 2005,
@@ -44,7 +44,7 @@ macro_version=2.4.2
 macro_revision=1.3337
 
 # Whether or not to build shared libraries.
-build_libtool_libs=no
+build_libtool_libs=yes
 
 # Whether or not to build static libraries.
 build_old_libs=yes
@@ -66,13 +66,13 @@ PATH_SEPARATOR=":"
 
 # The host system.
 host_alias=
-host=i386-apple-darwin21.4.0
-host_os=darwin21.4.0
+host=arm-apple-darwin21.3.0
+host_os=darwin21.3.0
 
 # The build system.
 build_alias=
-build=i386-apple-darwin21.4.0
-build_os=darwin21.4.0
+build=arm-apple-darwin21.3.0
+build_os=darwin21.3.0
 
 # A sed program that does not truncate output.
 SED="/usr/bin/sed"

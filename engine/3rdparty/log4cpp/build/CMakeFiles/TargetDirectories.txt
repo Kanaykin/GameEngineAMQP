@@ -1,0 +1,7 @@
+/Users/s.kanaykin/Documents/Home/Engines/GameEngineAMQP/engine/3rdparty/log4cpp/build/CMakeFiles/install/local.dir
+/Users/s.kanaykin/Documents/Home/Engines/GameEngineAMQP/engine/3rdparty/log4cpp/build/CMakeFiles/rebuild_cache.dir
+/Users/s.kanaykin/Documents/Home/Engines/GameEngineAMQP/engine/3rdparty/log4cpp/build/CMakeFiles/edit_cache.dir
+/Users/s.kanaykin/Documents/Home/Engines/GameEngineAMQP/engine/3rdparty/log4cpp/build/CMakeFiles/install/strip.dir
+/Users/s.kanaykin/Documents/Home/Engines/GameEngineAMQP/engine/3rdparty/log4cpp/build/CMakeFiles/install.dir
+/Users/s.kanaykin/Documents/Home/Engines/GameEngineAMQP/engine/3rdparty/log4cpp/build/CMakeFiles/list_install_components.dir
+/Users/s.kanaykin/Documents/Home/Engines/GameEngineAMQP/engine/3rdparty/log4cpp/build/CMakeFiles/log4cpp.dir

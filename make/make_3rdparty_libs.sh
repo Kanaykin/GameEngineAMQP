@@ -8,85 +8,85 @@ CURRENT_DIR=${PWD}
 ROOT_DIR=${CURRENT_DIR}/..
 echo "Script executed from: ${CURRENT_DIR}"
 
-# rabbitmq-c
-#------------------
-echo "make rabbitmq-c ... "
-cd ../engine/3rdparty/rabbitmq-c
-
-mkdir build 
-cd build
-
-brew install openssl
-brew link --force openssl
-
-cmake -DCMAKE_INSTALL_PREFIX=${ROOT_DIR}/dependence/rabbitmq-c -DOPENSSL_ROOT_DIR=/usr/bin/openssl ..
-cmake --build . --target install
-
-# amqpcpp
-#------------------
-echo "make amqpcpp ... "
-cd ${ROOT_DIR}/engine/3rdparty/amqpcpp
-
-mkdir build 
-cd build
-
-cmake -DCMAKE_DEPENDENCE_PATH=${ROOT_DIR}/dependence ..
-cmake --build . --target install
-
-# cmake .. -DMY_VARIABLE=0
-
-# qpid-proton
-#------------------
-cd ${ROOT_DIR}/engine/3rdparty/qpid-proton
-
-mkdir build 
-cd build
-
-brew install libuv
-
-cmake .. -DBUILD_EXAMPLES=0 -DBUILD_STATIC_LIBS=1 -DPROACTOR=libuv -DCMAKE_INSTALL_PREFIX=${ROOT_DIR}/dependence/qpid-proton
-cmake --build . --target install
-
-# logging-log4cxx
-#------------------
-# brew install apr
-# brew install apr-util
-
-# cd ${ROOT_DIR}/engine/3rdparty/logging-log4cxx
+# # rabbitmq-c
+# #------------------
+# echo "make rabbitmq-c ... "
+# cd ../engine/3rdparty/rabbitmq-c
 
 # mkdir build 
 # cd build
 
-# # -DBUILD_SHARED_LIBS=0
-# cmake ..  -DBUILD_SHARED_LIBS=0 -DCMAKE_INSTALL_PREFIX=${ROOT_DIR}/dependence/logging-log4cxx
+# brew install openssl
+# brew link --force openssl
+
+# cmake -DCMAKE_INSTALL_PREFIX=${ROOT_DIR}/dependence/rabbitmq-c -DOPENSSL_ROOT_DIR=/usr/bin/openssl ..
 # cmake --build . --target install
 
-# log4cpp
-#------------------
-echo "make log4cpp ... "
+# # amqpcpp
+# #------------------
+# echo "make amqpcpp ... "
+# cd ${ROOT_DIR}/engine/3rdparty/amqpcpp
 
-cd ${ROOT_DIR}/engine/3rdparty/log4cpp
-# make clean --enable_debug=yes
-./configure --prefix= --enable-threads=yes --enable-shared=no 
+# mkdir build 
+# cd build
 
-make
-make check
-make DESTDIR=${ROOT_DIR}/dependence/log4cpp install
+# cmake -DCMAKE_DEPENDENCE_PATH=${ROOT_DIR}/dependence ..
+# cmake --build . --target install
 
-# boost
-#------------------
-echo "make boost ... "
+# # cmake .. -DMY_VARIABLE=0
 
-if [[ -z "$BOOST_DIR" ]]; then
-  echo "Not found BOOST_DIR variable. You need set it to ~/.bash_profile"
-  exit 0
-else
-  echo "BOOST_DIR has the value: $BOOST_DIR"
-  cd "$BOOST_DIR"
-  ./bootstrap.sh
-  ./b2 install --libdir="${ROOT_DIR}/dependence/boost/lib" --includedir="${ROOT_DIR}/dependence/boost/include"
-  cd ${CURRENT_DIR}
-fi
+# # qpid-proton
+# #------------------
+# cd ${ROOT_DIR}/engine/3rdparty/qpid-proton
+
+# mkdir build 
+# cd build
+
+# brew install libuv
+
+# cmake .. -DBUILD_EXAMPLES=0 -DBUILD_STATIC_LIBS=1 -DPROACTOR=libuv -DCMAKE_INSTALL_PREFIX=${ROOT_DIR}/dependence/qpid-proton
+# cmake --build . --target install
+
+# # logging-log4cxx
+# #------------------
+# # brew install apr
+# # brew install apr-util
+
+# # cd ${ROOT_DIR}/engine/3rdparty/logging-log4cxx
+
+# # mkdir build 
+# # cd build
+
+# # # -DBUILD_SHARED_LIBS=0
+# # cmake ..  -DBUILD_SHARED_LIBS=0 -DCMAKE_INSTALL_PREFIX=${ROOT_DIR}/dependence/logging-log4cxx
+# # cmake --build . --target install
+
+# # log4cpp
+# #------------------
+# echo "make log4cpp ... "
+
+# cd ${ROOT_DIR}/engine/3rdparty/log4cpp
+
+
+# make clean 
+# ./configure --prefix= --enable-static CXXFLAGS=-std=c++20
+
+# make DESTDIR=${ROOT_DIR}/dependence/log4cpp install
+
+# # boost
+# #------------------
+# echo "make boost ... "
+
+# if [[ -z "$BOOST_DIR" ]]; then
+#   echo "Not found BOOST_DIR variable. You need set it to ~/.bash_profile"
+#   exit 0
+# else
+#   echo "BOOST_DIR has the value: $BOOST_DIR"
+#   cd "$BOOST_DIR"
+#   ./bootstrap.sh
+#   ./b2 install --libdir="${ROOT_DIR}/dependence/boost/lib" --includedir="${ROOT_DIR}/dependence/boost/include"
+#   cd ${CURRENT_DIR}
+# fi
 
 # zstd
 #------------------
@@ -97,60 +97,60 @@ make clean
 # ./configure --prefix=
 
 make prefix=
-make prefix= DESTDIR=${ROOT_DIR}/dependence/zstd install
+make prefix= DESTDIR=${ROOT_DIR}/dependence/zstd MOREFLAGS="-static" install
 
 
-# rapidjson
-#------------------
-echo "make rapidjson ... "
-cd ${ROOT_DIR}/engine/3rdparty/rapidjson
+# # rapidjson
+# #------------------
+# echo "make rapidjson ... "
+# cd ${ROOT_DIR}/engine/3rdparty/rapidjson
 
-mkdir build 
-cd build
+# mkdir build 
+# cd build
 
-cmake .. -DCMAKE_INSTALL_PREFIX=${ROOT_DIR}/dependence/rapidjson
-cmake --build . --target install
+# cmake .. -DCMAKE_INSTALL_PREFIX=${ROOT_DIR}/dependence/rapidjson
+# cmake --build . --target install
 
 
-# rapidxml
-#------------------
-echo "make rapidxml ... "
+# # rapidxml
+# #------------------
+# echo "make rapidxml ... "
 
-cd ${ROOT_DIR}/engine/3rdparty/rapidxml-1.13
+# cd ${ROOT_DIR}/engine/3rdparty/rapidxml-1.13
 
-mkdir ${ROOT_DIR}/dependence/rapidxml
-mkdir ${ROOT_DIR}/dependence/rapidxml/include
-mkdir ${ROOT_DIR}/dependence/rapidxml/include/rapidxml
+# mkdir ${ROOT_DIR}/dependence/rapidxml
+# mkdir ${ROOT_DIR}/dependence/rapidxml/include
+# mkdir ${ROOT_DIR}/dependence/rapidxml/include/rapidxml
 
-cp * ${ROOT_DIR}/dependence/rapidxml/include/rapidxml
+# cp * ${ROOT_DIR}/dependence/rapidxml/include/rapidxml
 
-# cityhash
-#------------------
-echo "make cityhash ... "
-cd ${ROOT_DIR}/engine/3rdparty/cityhash
-./configure
-make all check CXXFLAGS="-g -O3" prefix=
-make prefix= DESTDIR=${ROOT_DIR}/dependence/cityhash install
+# # cityhash
+# #------------------
+# echo "make cityhash ... "
+# cd ${ROOT_DIR}/engine/3rdparty/cityhash
+# ./configure
+# make all check CXXFLAGS="-g -O3" prefix=
+# make prefix= DESTDIR=${ROOT_DIR}/dependence/cityhash install
 
-# lua
-#------------------
-echo "make lua ... "
-cd ${ROOT_DIR}/engine/3rdparty/lua-5.4.4
+# # lua
+# #------------------
+# echo "make lua ... "
+# cd ${ROOT_DIR}/engine/3rdparty/lua-5.4.4
 
-mkdir ${ROOT_DIR}/dependence/lua
-mkdir ${ROOT_DIR}/dependence/lua/include
-mkdir ${ROOT_DIR}/dependence/lua/include/Lua
+# mkdir ${ROOT_DIR}/dependence/lua
+# mkdir ${ROOT_DIR}/dependence/lua/include
+# mkdir ${ROOT_DIR}/dependence/lua/include/Lua
 
-make all prefix=
-make prefix= INSTALL_TOP=${ROOT_DIR}/dependence/lua INSTALL_INC=${ROOT_DIR}/dependence/lua/include/Lua install
+# make all prefix=
+# make prefix= INSTALL_TOP=${ROOT_DIR}/dependence/lua INSTALL_INC=${ROOT_DIR}/dependence/lua/include/Lua install
 
-# googletest
-#------------------
-echo "make googletest ... "
-cd ${ROOT_DIR}/engine/3rdparty/googletest
+# # googletest
+# #------------------
+# echo "make googletest ... "
+# cd ${ROOT_DIR}/engine/3rdparty/googletest
 
-mkdir build 
-cd build
+# mkdir build 
+# cd build
 
-cmake .. -DCMAKE_INSTALL_PREFIX=${ROOT_DIR}/dependence/googletest
-cmake --build . --target install
+# cmake .. -DCMAKE_INSTALL_PREFIX=${ROOT_DIR}/dependence/googletest
+# cmake --build . --target install

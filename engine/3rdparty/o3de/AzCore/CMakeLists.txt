@@ -18,6 +18,14 @@ file(GLOB_RECURSE SRC
      AzCore/*.cpp
      Platform/Mac/*.h
      Platform/Mac/*.cpp
+     Platform/Common/UnixLike/*.h
+     Platform/Common/UnixLike/*.cpp
+     Platform/Common/UnixLikeDefault/*.h
+     Platform/Common/UnixLikeDefault/*.cpp
+     Platform/Common/Default/*.h
+     Platform/Common/Default/*.cpp
+     Platform/Common/Apple/*.h
+     Platform/Common/Apple/*.cpp
 )
 
 #message(STATUS "ATOM !!!! src ${SRC}")

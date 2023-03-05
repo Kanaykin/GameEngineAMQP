@@ -12,5 +12,8 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++20")
 
+# Activate the folders in a solution
+set_property(GLOBAL PROPERTY USE_FOLDERS ON)
+
 add_subdirectory (engine)
 add_subdirectory (examples)

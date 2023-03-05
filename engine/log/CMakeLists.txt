@@ -20,3 +20,7 @@ group_files()
 
 add_library(${PROJECT_NAME} STATIC ${SRC})
 target_link_libraries(${PROJECT_NAME} ${LIBRARIES})
+
+set_target_properties (log PROPERTIES
+    FOLDER engine
+)

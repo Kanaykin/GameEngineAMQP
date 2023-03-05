@@ -28,6 +28,8 @@ function(MAKE_EXAMPLE_APP proj_name include_modules)
     
     set_property(TARGET ${PROJECT_NAME} PROPERTY CXX_STANDARD 20)
 
+    set_target_properties (${PROJECT_NAME} PROPERTIES
+    FOLDER examples)
 
     install (TARGETS ${PROJECT_NAME} RUNTIME DESTINATION ${CMAKE_BUILD_PATH}/bin/${CMAKE_BUILD_TYPE})
 endfunction()

@@ -98,3 +98,7 @@ INSTALL (
   TARGETS ${LOG4CPP_LIBRARY_NAME}
   ARCHIVE DESTINATION lib
   )
+
+set_target_properties (log4cpp PROPERTIES
+    FOLDER 3rdparty
+)

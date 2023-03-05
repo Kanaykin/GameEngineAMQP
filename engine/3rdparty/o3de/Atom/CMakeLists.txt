@@ -21,3 +21,7 @@ group_files()
 
 add_library(${PROJECT_NAME} STATIC ${SRC})
 target_link_libraries(${PROJECT_NAME} ${LIBRARIES})
+
+set_target_properties (o3deAtom PROPERTIES
+    FOLDER 3rdparty/o3de
+)

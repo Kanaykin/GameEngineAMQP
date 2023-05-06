@@ -285,6 +285,10 @@ If you are concerned about the performance overhead incurred by virtual
 functions, and profiling confirms your concern, you can combine this with the
 recipe for [mocking non-virtual methods](#MockingNonVirtualMethods).
 
+Alternatively, instead of introducing a new interface, you can rewrite your code
+to accept a std::function instead of the free function, and then use
+[MockFunction](#MockFunction) to mock the std::function.
+
 ### Old-Style `MOCK_METHODn` Macros
 
 Before the generic `MOCK_METHOD` macro
@@ -904,7 +908,7 @@ using ::testing::Contains;
 using ::testing::Property;
 
 inline constexpr auto HasFoo = [](const auto& f) {
-  return Property(&MyClass::foo, Contains(f));
+  return Property("foo", &MyClass::foo, Contains(f));
 };
 ...
   EXPECT_THAT(x, HasFoo("blah"));
@@ -1158,7 +1162,7 @@ int IsEven(int n) { return (n % 2) == 0 ? 1 : 0; }
 ```
 
 Note that the predicate function / functor doesn't have to return `bool`. It
-works as long as the return value can be used as the condition in in statement
+works as long as the return value can be used as the condition in the statement
 `if (condition) ...`.
 
 ### Matching Arguments that Are Not Copyable
@@ -1345,7 +1349,7 @@ class BarPlusBazEqMatcher {
 
 ...
   Foo foo;
-  EXPECT_CALL(foo, BarPlusBazEq(5))...;
+  EXPECT_THAT(foo, BarPlusBazEq(5))...;
 ```
 
 ### Matching Containers
@@ -1424,11 +1428,12 @@ Use `Pair` when comparing maps or other associative containers.
 {% raw %}
 
 ```cpp
-using testing::ElementsAre;
-using testing::Pair;
+using ::testing::UnorderedElementsAre;
+using ::testing::Pair;
 ...
-  std::map<string, int> m = {{"a", 1}, {"b", 2}, {"c", 3}};
-  EXPECT_THAT(m, ElementsAre(Pair("a", 1), Pair("b", 2), Pair("c", 3)));
+  absl::flat_hash_map<string, int> m = {{"a", 1}, {"b", 2}, {"c", 3}};
+  EXPECT_THAT(m, UnorderedElementsAre(
+      Pair("a", 1), Pair("b", 2), Pair("c", 3)));
 ```
 
 {% endraw %}
@@ -1445,8 +1450,8 @@ using testing::Pair;
 *   If the container is passed by pointer instead of by reference, just write
     `Pointee(ElementsAre*(...))`.
 *   The order of elements *matters* for `ElementsAre*()`. If you are using it
-    with containers whose element order are undefined (e.g. `hash_map`) you
-    should use `WhenSorted` around `ElementsAre`.
+    with containers whose element order are undefined (such as a
+    `std::unordered_map`) you should use `UnorderedElementsAre`.
 
 ### Sharing Matchers
 
@@ -1903,7 +1908,7 @@ using testing::ReturnPointee;
 ### Combining Actions
 
 Want to do more than one thing when a function is called? That's fine. `DoAll()`
-allow you to do sequence of actions every time. Only the return value of the
+allows you to do a sequence of actions every time. Only the return value of the
 last action in the sequence will be used.
 
 ```cpp
@@ -2776,26 +2781,21 @@ action:
 If you are not happy with the default action, you can tweak it as usual; see
 [Setting Default Actions](#OnCall).
 
-If you just need to return a pre-defined move-only value, you can use the
-`Return(ByMove(...))` action:
+If you just need to return a move-only value, you can use it in combination with
+`WillOnce`. For example:
 
 ```cpp
-  // When this fires, the unique_ptr<> specified by ByMove(...) will
-  // be returned.
-  EXPECT_CALL(mock_buzzer_, MakeBuzz("world"))
-      .WillOnce(Return(ByMove(MakeUnique<Buzz>(AccessLevel::kInternal))));
-
-  EXPECT_NE(nullptr, mock_buzzer_.MakeBuzz("world"));
+  EXPECT_CALL(mock_buzzer_, MakeBuzz("hello"))
+      .WillOnce(Return(std::make_unique<Buzz>(AccessLevel::kInternal)));
+  EXPECT_NE(nullptr, mock_buzzer_.MakeBuzz("hello"));
 ```
 
-Note that `ByMove()` is essential here - if you drop it, the code won’t compile.
-
-Quiz time! What do you think will happen if a `Return(ByMove(...))` action is
-performed more than once (e.g. you write `...
-.WillRepeatedly(Return(ByMove(...)));`)? Come think of it, after the first time
-the action runs, the source value will be consumed (since it’s a move-only
-value), so the next time around, there’s no value to move from -- you’ll get a
-run-time error that `Return(ByMove(...))` can only be run once.
+Quiz time! What do you think will happen if a `Return` action is performed more
+than once (e.g. you write `... .WillRepeatedly(Return(std::move(...)));`)? Come
+think of it, after the first time the action runs, the source value will be
+consumed (since it’s a move-only value), so the next time around, there’s no
+value to move from -- you’ll get a run-time error that `Return(std::move(...))`
+can only be run once.
 
 If you need your mock method to do more than just moving a pre-defined value,
 remember that you can always use a lambda or a callable object, which can do
@@ -2804,7 +2804,7 @@ pretty much anything you want:
 ```cpp
   EXPECT_CALL(mock_buzzer_, MakeBuzz("x"))
       .WillRepeatedly([](StringPiece text) {
-        return MakeUnique<Buzz>(AccessLevel::kInternal);
+        return std::make_unique<Buzz>(AccessLevel::kInternal);
       });
 
   EXPECT_NE(nullptr, mock_buzzer_.MakeBuzz("x"));
@@ -2812,7 +2812,7 @@ pretty much anything you want:
 ```
 
 Every time this `EXPECT_CALL` fires, a new `unique_ptr<Buzz>` will be created
-and returned. You cannot do this with `Return(ByMove(...))`.
+and returned. You cannot do this with `Return(std::make_unique<...>(...))`.
 
 That covers returning move-only values; but how do we work with methods
 accepting move-only arguments? The answer is that they work normally, although
@@ -2823,7 +2823,7 @@ can always use `Return`, or a [lambda or functor](#FunctionsAsActions):
   using ::testing::Unused;
 
   EXPECT_CALL(mock_buzzer_, ShareBuzz(NotNull(), _)).WillOnce(Return(true));
-  EXPECT_TRUE(mock_buzzer_.ShareBuzz(MakeUnique<Buzz>(AccessLevel::kInternal)),
+  EXPECT_TRUE(mock_buzzer_.ShareBuzz(std::make_unique<Buzz>(AccessLevel::kInternal)),
               0);
 
   EXPECT_CALL(mock_buzzer_, ShareBuzz(_, _)).WillOnce(
@@ -2867,7 +2867,7 @@ method:
   // When one calls ShareBuzz() on the MockBuzzer like this, the call is
   // forwarded to DoShareBuzz(), which is mocked.  Therefore this statement
   // will trigger the above EXPECT_CALL.
-  mock_buzzer_.ShareBuzz(MakeUnique<Buzz>(AccessLevel::kInternal), 0);
+  mock_buzzer_.ShareBuzz(std::make_unique<Buzz>(AccessLevel::kInternal), 0);
 ```
 
 ### Making the Compilation Faster
@@ -4293,7 +4293,7 @@ particular type than to dump the bytes.
 ### Mock std::function {#MockFunction}
 
 `std::function` is a general function type introduced in C++11. It is a
-preferred way of passing callbacks to new interfaces. Functions are copiable,
+preferred way of passing callbacks to new interfaces. Functions are copyable,
 and are not usually passed around by pointer, which makes them tricky to mock.
 But fear not - `MockFunction` can help you with that.
 

@@ -31,8 +31,8 @@
 
 set -euox pipefail
 
-readonly LINUX_LATEST_CONTAINER="gcr.io/google.com/absl-177019/linux_hybrid-latest:20220217"
-readonly LINUX_GCC_FLOOR_CONTAINER="gcr.io/google.com/absl-177019/linux_gcc-floor:20220621"
+readonly LINUX_LATEST_CONTAINER="gcr.io/google.com/absl-177019/linux_hybrid-latest:20230217"
+readonly LINUX_GCC_FLOOR_CONTAINER="gcr.io/google.com/absl-177019/linux_gcc-floor:20230120"
 
 if [[ -z ${GTEST_ROOT:-} ]]; then
   GTEST_ROOT="$(realpath $(dirname ${0})/..)"
@@ -51,7 +51,7 @@ for cc in /usr/local/bin/gcc /opt/llvm/clang/bin/clang; do
       --workdir="/build" \
       --rm \
       --env="CC=${cc}" \
-      --env="CXX_FLAGS=\"-Werror -Wdeprecated\"" \
+      --env=CXXFLAGS="-Werror -Wdeprecated" \
       ${LINUX_LATEST_CONTAINER} \
       /bin/bash -c "
         cmake /src \
@@ -78,8 +78,10 @@ time docker run \
       --copt="-Wall" \
       --copt="-Werror" \
       --copt="-Wuninitialized" \
+      --copt="-Wundef" \
       --copt="-Wno-error=pragmas" \
       --distdir="/bazel-distdir" \
+      --features=external_include_paths \
       --keep_going \
       --show_timestamps \
       --test_output=errors
@@ -98,8 +100,10 @@ for std in ${STD}; do
         --copt="-Wall" \
         --copt="-Werror" \
         --copt="-Wuninitialized" \
+        --copt="-Wundef" \
         --define="absl=${absl}" \
         --distdir="/bazel-distdir" \
+        --features=external_include_paths \
         --keep_going \
         --show_timestamps \
         --test_output=errors
@@ -121,8 +125,10 @@ for std in ${STD}; do
         --copt="-Wall" \
         --copt="-Werror" \
         --copt="-Wuninitialized" \
+        --copt="-Wundef" \
         --define="absl=${absl}" \
         --distdir="/bazel-distdir" \
+        --features=external_include_paths \
         --keep_going \
         --linkopt="--gcc-toolchain=/usr/local" \
         --show_timestamps \

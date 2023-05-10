@@ -4,3 +4,12 @@ dependence/
 *.o
 *.a
 .DS_Store
+Makefile
+*.status
+*.log
+*.a
+*.Po
+.deps
+.libs
+*.Plo
+autom4te.cache

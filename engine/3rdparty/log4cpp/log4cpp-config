@@ -103,10 +103,10 @@ if test -z "$target" ; then
   target=""
 fi
 if test -z "$host" ; then
-  host="arm-apple-darwin21.3.0"
+  host="arm-apple-darwin22.3.0"
 fi
 if test -z "$build" ; then
-  build="arm-apple-darwin21.3.0"
+  build="arm-apple-darwin22.3.0"
 fi
  
 # generate output

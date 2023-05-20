@@ -11,7 +11,7 @@ echo "Script executed from: ${CURRENT_DIR}"
 declare -a params=()
 
 declare -a params_all=(
-	"rabbitmq-c" "amqpcpp" "qpid-proton" "log4cxx" "boost" "zstd" "rapidjson" "rapidxml" "cityhash" "lua" "googletest"
+	"rabbitmq-c" "amqpcpp" "qpid-proton" "log4cxx" "boost" "zstd" "rapidjson" "rapidxml" "cityhash" "lua" "googletest" "openssl"
 )
 
 NEED_CLEAR=false
@@ -44,6 +44,11 @@ while [[ $# -gt 0 ]]; do
     	--qpid-proton)
 		echo "option: qpid-proton"
 		params+=( "qpid-proton")
+      	shift
+    	;;
+    	--openssl)
+		echo "option: openssl"
+		params+=( "openssl")
       	shift
     	;;
 		-l|--log4cxx)
@@ -182,6 +187,23 @@ fi
 # # -DBUILD_SHARED_LIBS=0
 # cmake ..  -DBUILD_SHARED_LIBS=0 -DCMAKE_INSTALL_PREFIX=${ROOT_DIR}/dependence/logging-log4cxx
 # cmake --build . --target install
+
+# openssl
+#------------------
+echo "make openssl ... "
+
+cd ${ROOT_DIR}/engine/3rdparty/openssl
+
+
+param_exists "openssl"
+if [ $? -eq 1 ]; then
+	make clean 
+	# ./configure --prefix= --enable-static CXXFLAGS=-std=c++20
+	./Configure clean
+	./Configure --prefix=./ --openssldir=./
+
+	make DESTDIR=${ROOT_DIR}/dependence/openssl install
+fi
 
 # log4cpp
 #------------------

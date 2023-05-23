@@ -1,7 +1,8 @@
 cmake_minimum_required(VERSION 3.10)
 
 link_directories("${CMAKE_DEPENDENCE_PATH}/qpid-proton/lib")
-link_directories("/usr/local/Cellar/openssl@3/3.0.2/lib")
+link_directories("${CMAKE_DEPENDENCE_PATH}/openssl/usr/local/lib")
+#link_directories("/usr/local/Cellar/openssl@3/3.0.2/lib")
 
 include_directories(${CMAKE_DEPENDENCE_PATH}/qpid-proton/include)
 

@@ -36,6 +36,9 @@ namespace logger
     Logger::Logger(const std::string& category, LogVerbosity verbosity):
     _category(log4cpp::Category::getInstance(category))
     {
+		// #HACK FIXME #26
+		static log4cpp::Appender::AppenderMapStorageInitializer* ymt = new log4cpp::Appender::AppenderMapStorageInitializer();
+		
         log4cpp::Appender *appender1 = new log4cpp::OstreamAppender("console", &std::cout);
         appender1->setLayout(new log4cpp::BasicLayout());
         _category.setPriority(convertPriority(verbosity));

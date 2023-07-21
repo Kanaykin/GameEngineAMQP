@@ -11,8 +11,6 @@
 
 PROJECT ( LOG4CPP )
 
-include(openssl)
-
 INCLUDE_DIRECTORIES ( include )
 INCLUDE_DIRECTORIES ( . )
 
@@ -88,16 +86,6 @@ IF (WIN32)
 ENDIF (WIN32)
 
 #add_custom_target(process_files_target)
-
-#FIXME: Need chage output path
-foreach(file ${OPENSSL_DYLIBS})
-    add_custom_command(
-        TARGET ${LOG4CPP_LIBRARY_NAME}
-        COMMAND ${CMAKE_COMMAND} -E copy ${file} "${CMAKE_BINARY_DIR}/engine/3rdparty/log4cpp/Debug"
-        DEPENDS ${file}
-        COMMENT "Processing file: ${file}"
-    )
-endforeach()
   
 
 INSTALL (

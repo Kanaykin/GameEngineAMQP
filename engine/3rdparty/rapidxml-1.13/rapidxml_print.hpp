@@ -53,8 +53,8 @@ inline OutIt print_pi_node(OutIt out, const xml_node<Ch> *node, int flags, int i
     // Internal
 
     //! \cond internal
-    namespace internal
-    {
+//    namespace internal
+//    {
         
         ///////////////////////////////////////////////////////////////////////////
         // Internal character operations
@@ -400,7 +400,7 @@ inline OutIt print_pi_node(OutIt out, const xml_node<Ch> *node, int flags, int i
             return out;
         }
 
-    }
+//    }
     //! \endcond
 
     ///////////////////////////////////////////////////////////////////////////
@@ -414,7 +414,7 @@ inline OutIt print_pi_node(OutIt out, const xml_node<Ch> *node, int flags, int i
     template<class OutIt, class Ch> 
     inline OutIt print(OutIt out, const xml_node<Ch> &node, int flags = 0)
     {
-        return internal::print_node(out, &node, flags, 0);
+        return print_node(out, &node, flags, 0);
     }
 
 #ifndef RAPIDXML_NO_STREAMS
